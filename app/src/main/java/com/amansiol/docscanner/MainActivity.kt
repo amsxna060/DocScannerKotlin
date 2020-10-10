@@ -64,21 +64,24 @@ class MainActivity : AppCompatActivity() {
                 fab_main.startAnimation(fab_clock)
                 fab2_view.isClickable = true
                 fab2_conversion.isClickable = true
-                fab1_cam.setClickable(true)
+                fab1_cam.isClickable = true
                 isOpen = true
             }
         })
 
         fab2_view.setOnClickListener(View.OnClickListener {
-            Toast.makeText(this,"view pdfs",Toast.LENGTH_LONG).show()
+            val intent = Intent(this@MainActivity, ViewAllPdf::class.java)
+            startActivity(intent)
         })
 
         fab1_cam.setOnClickListener(View.OnClickListener {
-            Toast.makeText(this,"camera",Toast.LENGTH_LONG).show()
+            val intent = Intent(this@MainActivity, CreatingPdf::class.java)
+            startActivity(intent)
         })
 
         fab2_conversion.setOnClickListener(View.OnClickListener {
-            Toast.makeText(this,"Convert",Toast.LENGTH_LONG).show()
+            val intent = Intent(this@MainActivity, ConversionMenu::class.java)
+            startActivity(intent)
         })
 
     }
