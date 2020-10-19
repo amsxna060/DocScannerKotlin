@@ -6,4 +6,43 @@
     android:layout_height="match_parent"
     tools:context=".CreatingPdf">
 
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/captured_images_recyclerview"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        tools:listitem="@layout/rowimage"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/saveFile"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="65dp"
+        android:clickable="true"
+        android:focusable="true"
+        android:onClick="savePdf"
+        android:tint="@android:color/white"
+        android:backgroundTint="@color/colorTheme"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:srcCompat="@drawable/ic_baseline_save_24" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/startCapture"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="34dp"
+        android:clickable="true"
+        android:focusable="true"
+        android:backgroundTint="@color/colorTheme"
+        android:tint="@android:color/white"
+        app:layout_constraintBottom_toTopOf="@+id/saveFile"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:srcCompat="@drawable/ic_baseline_camera_alt_24" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

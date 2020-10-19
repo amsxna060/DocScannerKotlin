@@ -75,7 +75,7 @@ class MainActivity : AppCompatActivity() {
         })
 
         fab1_cam.setOnClickListener(View.OnClickListener {
-            val intent = Intent(this@MainActivity, CreatingPdf::class.java)
+            val intent = Intent(this@MainActivity, CameraActivity::class.java)
             startActivity(intent)
         })
 

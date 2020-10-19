@@ -10,13 +10,15 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
+
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/imageitem"
             android:layout_width="match_parent"
             android:layout_height="250dp"
-            app:srcCompat="@drawable/temppage"
-            />
+            app:srcCompat="@drawable/temppage" />
+
         <TextView
+            android:id="@+id/photo_number"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="1"
