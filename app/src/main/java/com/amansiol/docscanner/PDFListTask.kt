@@ -23,7 +23,7 @@ class PDFListTask(var context: Context) : AsyncTask<Void,Void,String>() {
     private fun fillPdfArray(dir: File) {
         for(file in dir.listFiles()) {
             if (file.isDirectory) {
-                if (file.absolutePath.contentEquals("${Environment.getExternalStorageDirectory()}/Doc_Scanner_2020")) {
+                if (file.absolutePath.contentEquals("${Environment.getExternalStorageDirectory()}/${Constants.APP_FOLDER_NAME}")) {
                     //We are not interested in fetching the files of our created PDFs
                 }
                 else
