@@ -118,7 +118,7 @@ class CameraActivity : AppCompatActivity() {
             val cameraProvider: ProcessCameraProvider = cameraProviderFuture.get()
 
             val preview: Preview = Preview.Builder().build().also {
-                it.setSurfaceProvider(viewFinder.createSurfaceProvider())
+                it.setSurfaceProvider(viewFinder.surfaceProvider)
             }
 
             val cameraSelector = CameraSelector.DEFAULT_BACK_CAMERA

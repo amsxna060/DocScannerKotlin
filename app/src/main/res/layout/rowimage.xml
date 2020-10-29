@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     app:cardElevation="4dp"
-    app:cardCornerRadius="6dp"
+    app:cardCornerRadius="4dp"
     app:cardUseCompatPadding="true"
     app:cardPreventCornerOverlap="true"
     xmlns:app="http://schemas.android.com/apk/res-auto">
@@ -14,23 +14,33 @@
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/imageitem"
             android:layout_width="match_parent"
-            android:layout_height="250dp"
-            app:srcCompat="@drawable/temppage" />
-
+            android:layout_height="200dp"
+            app:srcCompat="@drawable/temppage"
+            android:scaleType="centerCrop"/>
+        <ImageView
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:src="@drawable/ic_baseline_close_24"
+            android:background="@drawable/roundsquare"
+            android:layout_alignEnd="@+id/imageitem"
+            android:layout_alignTop="@id/imageitem"
+            android:layout_marginEnd="8dp"
+            android:layout_marginTop="8dp"
+            />
         <TextView
             android:id="@+id/photo_number"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
             android:text="1"
             android:textColor="@color/colorWhite"
-            android:padding="3dp"
+            android:padding="1dp"
             android:gravity="center"
-            android:textSize="16sp"
+            android:textSize="12sp"
             android:textStyle="bold"
             android:layout_alignBottom="@id/imageitem"
             android:layout_alignLeft="@+id/imageitem"
             android:layout_margin="8dp"
-            android:background="@drawable/roundsquare"/>
+            android:background="@drawable/blueroundsquare"/>
 
     </RelativeLayout>
 
