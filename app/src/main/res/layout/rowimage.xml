@@ -17,7 +17,9 @@
             android:layout_height="200dp"
             app:srcCompat="@drawable/temppage"
             android:scaleType="centerCrop"/>
+
         <ImageView
+            android:id="@+id/remove_page_from_pdf"
             android:layout_width="24dp"
             android:layout_height="24dp"
             android:src="@drawable/ic_baseline_close_24"

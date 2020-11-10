@@ -5,6 +5,7 @@ import android.app.Activity
 import android.content.Context
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.graphics.Matrix
 import android.graphics.pdf.PdfDocument
 import android.os.Environment
@@ -17,15 +18,15 @@ import java.io.FileOutputStream
 import java.lang.Exception
 
 //The below class converts the BitmapArray to the Pdf Document
-class PdfCreator(var context: Context, var bitmapArray: ArrayList<Bitmap>, var filename: String) {
+class PdfCreator(var context: Context, var bitmapFileArray: ArrayList<File>, var filename: String) {
 
     fun createPDF() {
         val document: PdfDocument = PdfDocument()
-        for(i in 0 until bitmapArray.size) {
+        for(i in 0 until bitmapFileArray.size) {
             val pageInfo: PdfDocument.PageInfo = PdfDocument.PageInfo.Builder(592,842,i + 1).create()
             val page: PdfDocument.Page = document.startPage(pageInfo)
 
-            var currentBitmap = bitmapArray[i]
+            var currentBitmap = BitmapFactory.decodeFile(bitmapFileArray[i].absolutePath)
 
             currentBitmap = getResizedBitmap(currentBitmap)
 
@@ -83,9 +84,9 @@ class PdfCreator(var context: Context, var bitmapArray: ArrayList<Bitmap>, var f
                 val file: File = File(dir, "$filename.pdf")
                 document.writeTo(FileOutputStream(file))
                 document.close()
-                Toast.makeText(context,"File saved",Toast.LENGTH_SHORT).show()
+//                Toast.makeText(context,"File saved",Toast.LENGTH_SHORT).show()
             } catch (e: Exception) {
-                Toast.makeText(context, "Something went wrong while saving PDF",Toast.LENGTH_SHORT).show()
+                //Toast.makeText(context, "Something went wrong while saving PDF",Toast.LENGTH_SHORT).show()
                 Log.e("Exception!!!!- ", e.toString())
             }
         } else {

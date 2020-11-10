@@ -1,0 +1,221 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".FilterActivity">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/filter_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorTheme">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Apply filters"
+                android:fontFamily="sans-serif"
+                android:textStyle="bold"
+                android:textSize="20sp"
+                android:textColor="@android:color/white"/>
+
+            <ImageView
+                android:onClick="goToCreatingPdf"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:src="@drawable/ic_baseline_navigate_next_24"
+                android:layout_alignParentEnd="true"
+                android:layout_marginEnd="16dp"
+                app:tint="@android:color/white" />
+        </RelativeLayout>
+    </androidx.appcompat.widget.Toolbar>
+
+    <ImageView
+        android:layout_below="@id/filter_toolbar"
+        android:id="@+id/image_to_filter"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:src="@drawable/bwpage"
+        android:layout_above="@+id/image_number_to_filter"
+        android:layout_margin="16dp"/>
+
+    <ImageView
+        android:onClick="goToPrevFile"
+        android:id="@+id/image_to_filter_prev"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_baseline_navigate_before_24"
+        android:layout_above="@id/horizontal_scrollview"
+        android:layout_marginBottom="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_toStartOf="@id/image_number_to_filter"/>
+
+    <TextView
+        android:id="@+id/image_number_to_filter"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:elevation="4dp"
+        android:background="@drawable/image_number"
+        android:text="1/3"
+        android:fontFamily="sans-serif"
+        android:textStyle="bold"
+        android:padding="4dp"
+        android:textSize="16sp"
+        android:layout_marginBottom="16dp"
+        android:layout_centerHorizontal="true"
+        android:layout_above="@id/horizontal_scrollview"/>
+
+    <ImageView
+        android:onClick="goToNextFile"
+        android:id="@+id/image_to_filter_next"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_baseline_navigate_next_24"
+        android:layout_above="@id/horizontal_scrollview"
+        android:layout_marginBottom="16dp"
+        android:layout_marginStart="16dp"
+        android:layout_toEndOf="@id/image_number_to_filter"/>
+
+    <HorizontalScrollView
+        android:id="@+id/horizontal_scrollview"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="16dp"
+        android:paddingBottom="16dp"
+        android:background="@android:color/black"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="0dp">
+
+        <LinearLayout
+            android:background="@android:color/black"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_gravity="center"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:onClick="applyNoneFilter"
+                android:layout_marginEnd="32dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:id="@+id/noneImageView"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:src="@drawable/bwpage"/>
+
+                <TextView
+                    android:text="None"
+                    android:layout_marginTop="8dp"
+                    android:textAlignment="center"
+                    android:textColor="@android:color/white"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:onClick="applyBlack"
+                android:layout_marginEnd="32dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:id="@+id/blackImageView"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:src="@drawable/bwpage"/>
+
+                <TextView
+                    android:text="Black"
+                    android:layout_marginTop="8dp"
+                    android:textAlignment="center"
+                    android:textColor="@android:color/white"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:onClick="applyGray"
+                android:layout_marginEnd="32dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:id="@+id/grayImageView"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:src="@drawable/bwpage"/>
+
+                <TextView
+                    android:text="Gray"
+                    android:layout_marginTop="8dp"
+                    android:textAlignment="center"
+                    android:textColor="@android:color/white"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:onClick="applyHDR"
+                android:layout_marginEnd="32dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:id="@+id/hdrImageView"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:src="@drawable/bwpage"/>
+
+                <TextView
+                    android:text="HDR"
+                    android:layout_marginTop="8dp"
+                    android:textAlignment="center"
+                    android:textColor="@android:color/white"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:onClick="applyGlow"
+                android:layout_marginEnd="0dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:id="@+id/glowImageView"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:src="@drawable/bwpage"/>
+
+                <TextView
+                    android:text="Glow"
+                    android:layout_marginTop="8dp"
+                    android:textAlignment="center"
+                    android:textColor="@android:color/white"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+            </LinearLayout>
+        </LinearLayout>
+    </HorizontalScrollView>
+
+
+</RelativeLayout>
+
+
+
