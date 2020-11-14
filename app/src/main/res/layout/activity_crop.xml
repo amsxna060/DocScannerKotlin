@@ -225,4 +225,13 @@
 
     </RelativeLayout>
 
+    <ProgressBar
+        android:id="@+id/image_load_progressbar"
+        android:indeterminateTint="@color/colorTheme"
+        android:visibility="invisible"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true" />
+
 </RelativeLayout>

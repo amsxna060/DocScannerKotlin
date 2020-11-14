@@ -11,7 +11,7 @@ class MakePDFAsyncTask(var context: Context, var fileArray: ArrayList<File>, var
     lateinit var progressDialog: ProgressDialog
     override fun onPreExecute() {
         super.onPreExecute()
-        progressDialog = ProgressDialog(context)
+        progressDialog = ProgressDialog(context, R.style.MyDialogTheme)
         progressDialog.setMessage("Saving, Please wait")
         progressDialog.setCanceledOnTouchOutside(false)
         progressDialog.show()
@@ -28,7 +28,7 @@ class MakePDFAsyncTask(var context: Context, var fileArray: ArrayList<File>, var
 
     override fun onPostExecute(result: Void?) {
         super.onPostExecute(result)
-        progressDialog.show()
+        progressDialog.dismiss()
         Toast.makeText(context, "File saved!",Toast.LENGTH_SHORT).show()
         CreatingPdf.bitmapArray.clear()
         CreatingPdf.bitmapFileArray.clear()
