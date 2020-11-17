@@ -18,7 +18,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".FilterActivity" android:theme="@style/AppTheme.NoActionBar"/>
+        <activity android:name=".DeviceFile"></activity>
+        <activity
+            android:name=".FilterActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".CropImageActivity" />
         <activity
             android:name=".CropActivity"
@@ -29,7 +32,9 @@
             android:name=".CameraActivity"
             android:theme="@style/AppThemeFullScreen" />
         <activity android:name=".ViewAllPdf" />
-        <activity android:name=".CreatingPdf" android:theme="@style/AppTheme.NoActionBar"/>
+        <activity
+            android:name=".CreatingPdf"
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

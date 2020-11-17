@@ -96,7 +96,7 @@ class SaveAllFileTask(var context: Context, var filterArrayList: ArrayList<Int>)
         // First decode with inJustDecodeBounds=true to check dimensions
         return BitmapFactory.Options().run {
             inJustDecodeBounds = true
-            BitmapFactory.decodeFile(file.absolutePath)
+            BitmapFactory.decodeFile(file.absolutePath,this);
 
             // Calculate inSampleSize
             inSampleSize = calculateInSampleSize(this, reqWidth, reqHeight)
@@ -104,7 +104,7 @@ class SaveAllFileTask(var context: Context, var filterArrayList: ArrayList<Int>)
             // Decode bitmap with inSampleSize set
             inJustDecodeBounds = false
 
-            BitmapFactory.decodeFile(file.absolutePath)
+            BitmapFactory.decodeFile(file.absolutePath,this)
         }
     }
 }
