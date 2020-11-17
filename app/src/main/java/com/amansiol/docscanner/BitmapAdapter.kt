@@ -28,7 +28,7 @@ class BitmapAdapter(var context: Context) : RecyclerView.Adapter<BitmapAdapter.B
     }
 
     override fun getItemCount(): Int {
-        return CreatingPdf.bitmapArray.size
+        return CreatingPdf.bitmapFileArray.size
     }
 
     class BitmapViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {

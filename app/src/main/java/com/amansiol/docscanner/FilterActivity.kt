@@ -5,9 +5,9 @@ import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.os.Environment
 import android.view.View
 import android.widget.ImageView
+import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import net.alhazmy13.imagefilter.ImageFilter
@@ -15,25 +15,24 @@ import java.io.File
 
 class FilterActivity : AppCompatActivity() {
 
-    private lateinit var imageNumberTextView: TextView
-    private lateinit var currentBitmap: Bitmap
-    private lateinit var currentFile: File
-    private lateinit var currentImageView: ImageView
-    private var currentFilterNumber = 0
-    var currentImageNumber: Int = 0
-
-    lateinit var blackBitmap: Bitmap
-    lateinit var glowBitmap: Bitmap
-    lateinit var grayBitmap: Bitmap
-    lateinit var hdrBitmap: Bitmap
-
+    lateinit var imageNumberTextView: TextView
     lateinit var blackImageView: ImageView
-    lateinit var grayImageView: ImageView
-    lateinit var noneImageView: ImageView
-    lateinit var glowImageView: ImageView
-    lateinit var hdrImageView: ImageView
-
-    var filterArrayList: ArrayList<Int> = ArrayList(CreatingPdf.bitmapArray.size)
+    private lateinit var grayImageView: ImageView
+    private lateinit var noneImageView: ImageView
+    private lateinit var glowImageView: ImageView
+    private lateinit var hdrImageView: ImageView
+    private var noneBitmap: Bitmap? = null
+    private var blackBitmap: Bitmap? = null
+    private var glowBitmap: Bitmap? = null
+    private var grayBitmap: Bitmap? = null
+    private var hdrBitmap: Bitmap? = null
+    private var currentBitmap: Bitmap? = null
+    private lateinit var currentImageView: ImageView
+    private lateinit var currentFile: File
+    private var currentFilterNumber = 0
+    private var currentImageNumber: Int = 0
+    private lateinit var progressBar: ProgressBar
+    private var filterArrayList: ArrayList<Int> = ArrayList(CreatingPdf.bitmapFileArray.size)
 
     /* currentFilterNumber values-
     * 0- None
@@ -55,6 +54,7 @@ class FilterActivity : AppCompatActivity() {
 
         imageNumberTextView = findViewById(R.id.image_number_to_filter)
         currentImageView = findViewById(R.id.image_to_filter)
+        progressBar = findViewById(R.id.filter_image_load_progressbar)
 
         noneImageView = findViewById(R.id.noneImageView)
         blackImageView = findViewById(R.id.blackImageView)
@@ -65,8 +65,17 @@ class FilterActivity : AppCompatActivity() {
         setFilterArray()
 
         setCurrentFile()
+
         currentBitmap = BitmapFactory.decodeFile(currentFile.absolutePath)
         currentImageView.setImageBitmap(currentBitmap)
+        setAppropriateFilter()
+        noneBitmap = null
+        glowBitmap = null
+        blackBitmap = null
+        glowBitmap = null
+        hdrBitmap = null
+
+        noneBitmap = decodeSampledBitmapFromFile(currentFile, 40, 40)
         getAllPreviews()
         setImageNumberText()
     }
@@ -89,22 +98,30 @@ class FilterActivity : AppCompatActivity() {
         if (currentImageNumber > 0) {
             currentImageNumber--
             setCurrentFile()
-            currentBitmap = BitmapFactory.decodeFile(currentFile.absolutePath)
-            setAppropriateFilter()
-            currentImageView.setImageBitmap(currentBitmap)
-            getAllPreviews()
+            val task: FilterLoadOther = FilterLoadOther(currentFile, currentImageNumber, progressBar, filterArrayList)
+
+            task.setCurrentBitmap(currentBitmap)
+            task.setCurrentImageView(currentImageView)
+            task.setSmallImageViews(noneImageView, blackImageView, grayImageView, hdrImageView, glowImageView)
+            task.setSmallBitmaps(noneBitmap, blackBitmap, grayBitmap, hdrBitmap, glowBitmap)
+
+            task.execute()
             setImageNumberText()
         }
     }
 
     fun goToNextFile(view: View) {
-        if (currentImageNumber < CreatingPdf.bitmapArray.size - 1) {
+        if (currentImageNumber < CreatingPdf.bitmapFileArray.size - 1) {
             currentImageNumber++
             setCurrentFile()
-            currentBitmap = BitmapFactory.decodeFile(currentFile.absolutePath)
-            setAppropriateFilter()
-            currentImageView.setImageBitmap(currentBitmap)
-            getAllPreviews()
+            val task: FilterLoadOther = FilterLoadOther(currentFile, currentImageNumber, progressBar, filterArrayList)
+
+            task.setCurrentBitmap(currentBitmap)
+            task.setCurrentImageView(currentImageView)
+            task.setSmallImageViews(noneImageView, blackImageView, grayImageView, hdrImageView, glowImageView)
+            task.setSmallBitmaps(noneBitmap, blackBitmap, grayBitmap, hdrBitmap, glowBitmap)
+
+            task.execute()
             setImageNumberText()
         }
     }
@@ -122,19 +139,12 @@ class FilterActivity : AppCompatActivity() {
     }
 
     private fun setImageNumberText() {
-        val imageNumberText = "${currentImageNumber + 1}/${CreatingPdf.bitmapArray.size}"
+        val imageNumberText = "${currentImageNumber + 1}/${CreatingPdf.bitmapFileArray.size}"
         imageNumberTextView.text = imageNumberText
     }
 
-//    private fun saveCurrentBitmapToFile() {
-//        val task: SaveBitmapAsync = SaveBitmapAsync(CropActivity.currentBitmap, currentFile)
-//        task.execute()
-//    }
-
     fun applyNoneFilter(view: View) {
         currentBitmap = BitmapFactory.decodeFile(CreatingPdf.bitmapFileArray[currentImageNumber].absolutePath)
-//        currentBitmap = BitmapFactory.decodeFile(currentFile.absolutePath)
-        currentImageView.setImageBitmap(currentBitmap)
         currentImageView.setImageBitmap(currentBitmap)
         filterArrayList[currentImageNumber] = 0
         currentFilterNumber = 0
@@ -142,8 +152,10 @@ class FilterActivity : AppCompatActivity() {
 
     fun applyBlack(view: View) {
         currentBitmap = BitmapFactory.decodeFile(CreatingPdf.bitmapFileArray[currentImageNumber].absolutePath)
-//        currentBitmap = BitmapFactory.decodeFile(Environment.getExternalStorageDirectory().absolutePath + "/${Constants.APP_FOLDER_NAME}/temp_$currentImageNumber.png")
+        var prevBitmap = currentBitmap
         currentBitmap = ImageFilter.applyFilter(currentBitmap, ImageFilter.Filter.BLOCK)
+        prevBitmap?.recycle()
+        prevBitmap = null
         currentImageView.setImageBitmap(currentBitmap)
         filterArrayList[currentImageNumber] = 1
         currentFilterNumber = 1
@@ -151,8 +163,10 @@ class FilterActivity : AppCompatActivity() {
 
     fun applyGray(view: View) {
         currentBitmap = BitmapFactory.decodeFile(CreatingPdf.bitmapFileArray[currentImageNumber].absolutePath)
-//        currentBitmap = BitmapFactory.decodeFile(Environment.getExternalStorageDirectory().absolutePath + "/${Constants.APP_FOLDER_NAME}/temp_$currentImageNumber.png")
+        var prevBitmap: Bitmap? = currentBitmap
         currentBitmap = ImageFilter.applyFilter(currentBitmap, ImageFilter.Filter.GRAY)
+        prevBitmap?.recycle()
+        prevBitmap = null
         currentImageView.setImageBitmap(currentBitmap)
         filterArrayList[currentImageNumber] = 2
         currentFilterNumber = 2
@@ -160,7 +174,10 @@ class FilterActivity : AppCompatActivity() {
 
     fun applyHDR(view: View) {
         currentBitmap = BitmapFactory.decodeFile(CreatingPdf.bitmapFileArray[currentImageNumber].absolutePath)
+        var prevBitmap: Bitmap? = currentBitmap
         currentBitmap = ImageFilter.applyFilter(currentBitmap, ImageFilter.Filter.HDR)
+        prevBitmap?.recycle()
+        prevBitmap = null
         currentImageView.setImageBitmap(currentBitmap)
         filterArrayList[currentImageNumber] = 3
         currentFilterNumber = 3
@@ -168,8 +185,10 @@ class FilterActivity : AppCompatActivity() {
 
     fun applyGlow(view: View) {
         currentBitmap = BitmapFactory.decodeFile(CreatingPdf.bitmapFileArray[currentImageNumber].absolutePath)
-//        currentBitmap = BitmapFactory.decodeFile(Environment.getExternalStorageDirectory().absolutePath + "/${Constants.APP_FOLDER_NAME}/temp_$currentImageNumber.png")
+        var prevBitmap: Bitmap? = currentBitmap
         currentBitmap = ImageFilter.applyFilter(currentBitmap, ImageFilter.Filter.SOFT_GLOW)
+        prevBitmap?.recycle()
+        prevBitmap =  null
         currentImageView.setImageBitmap(currentBitmap)
         filterArrayList[currentImageNumber] = 4
         currentFilterNumber = 4
@@ -184,37 +203,27 @@ class FilterActivity : AppCompatActivity() {
     }
 
     private fun getNonePreview() {
-//        val file: File = File(Environment.getExternalStorageDirectory().absolutePath + "/${Constants.APP_FOLDER_NAME}/temp_$currentImageNumber.png")
-//        noneBitmap = decodeSampledBitmapFromFile(file,40,40)
-        noneImageView.setImageBitmap(CreatingPdf.bitmapArray[currentImageNumber])
+        noneBitmap = decodeSampledBitmapFromFile(currentFile,40,40)
+        noneImageView.setImageBitmap(noneBitmap)
     }
 
     private fun getGlowPreview() {
-//        val file: File = File(Environment.getExternalStorageDirectory().absolutePath + "/${Constants.APP_FOLDER_NAME}/temp_$currentImageNumber.png")
-//        glowBitmap = decodeSampledBitmapFromFile(file,40,40)
-        glowBitmap = ImageFilter.applyFilter(CreatingPdf.bitmapArray[currentImageNumber], ImageFilter.Filter.SOFT_GLOW)
+        glowBitmap = ImageFilter.applyFilter(noneBitmap, ImageFilter.Filter.SOFT_GLOW)
         glowImageView.setImageBitmap(glowBitmap)
     }
 
     private fun getHDRPreview() {
-//        val file: File = File(Environment.getExternalStorageDirectory().absolutePath + "/${Constants.APP_FOLDER_NAME}/temp_$currentImageNumber.png")
-//        hdrBitmap = decodeSampledBitmapFromFile(file,40,40)
-        hdrBitmap = ImageFilter.applyFilter(CreatingPdf.bitmapArray[currentImageNumber], ImageFilter.Filter.HDR)
+        hdrBitmap = ImageFilter.applyFilter(noneBitmap, ImageFilter.Filter.HDR)
         hdrImageView.setImageBitmap(hdrBitmap)
     }
 
     private fun getGrayPreview() {
-      //  val file: File = File(Environment.getExternalStorageDirectory().absolutePath + "/${Constants.APP_FOLDER_NAME}/temp_$currentImageNumber.png")
-      //  grayBitmap = decodeSampledBitmapFromFile(file,40,40)
-
-        grayBitmap = ImageFilter.applyFilter(CreatingPdf.bitmapArray[currentImageNumber], ImageFilter.Filter.GRAY)
+        grayBitmap = ImageFilter.applyFilter(noneBitmap, ImageFilter.Filter.GRAY)
         grayImageView.setImageBitmap(grayBitmap)
     }
 
     private fun getBlackPreview() {
-//        val file: File = File(Environment.getExternalStorageDirectory().absolutePath + "/${Constants.APP_FOLDER_NAME}/temp_$currentImageNumber.png")
-//        blackBitmap = decodeSampledBitmapFromFile(file,40,40)
-        blackBitmap = ImageFilter.applyFilter(CreatingPdf.bitmapArray[currentImageNumber], ImageFilter.Filter.BLOCK)
+        blackBitmap = ImageFilter.applyFilter(noneBitmap, ImageFilter.Filter.BLOCK)
         blackImageView.setImageBitmap(blackBitmap)
     }
 
@@ -223,8 +232,48 @@ class FilterActivity : AppCompatActivity() {
     }
 
     private fun setFilterArray() {
-        for (i in 0 until CreatingPdf.bitmapArray.size) {
+        for (i in 0 until CreatingPdf.bitmapFileArray.size) {
              filterArrayList.add(0)
+        }
+    }
+
+    private fun calculateInSampleSize(options: BitmapFactory.Options, reqWidth: Int, reqHeight: Int): Int {
+        // Raw height and width of image
+        val (height: Int, width: Int) = options.run { outHeight to outWidth }
+        var inSampleSize = 1
+
+        if (height > reqHeight || width > reqWidth) {
+
+            val halfHeight: Int = height / 2
+            val halfWidth: Int = width / 2
+
+            // Calculate the largest inSampleSize value that is a power of 2 and keeps both
+            // height and width larger than the requested height and width.
+            while (halfHeight / inSampleSize >= reqHeight && halfWidth / inSampleSize >= reqWidth) {
+                inSampleSize *= 2
+            }
+        }
+
+        return inSampleSize
+    }
+
+    private fun decodeSampledBitmapFromFile(
+        file: File,
+        reqWidth: Int,
+        reqHeight: Int
+    ): Bitmap {
+        // First decode with inJustDecodeBounds=true to check dimensions
+        return BitmapFactory.Options().run {
+            inJustDecodeBounds = true
+            BitmapFactory.decodeFile(file.absolutePath, this)
+
+            // Calculate inSampleSize
+            inSampleSize = calculateInSampleSize(this, reqWidth, reqHeight)
+
+            // Decode bitmap with inSampleSize set
+            inJustDecodeBounds = false
+
+            BitmapFactory.decodeFile(file.absolutePath,this)
         }
     }
 }

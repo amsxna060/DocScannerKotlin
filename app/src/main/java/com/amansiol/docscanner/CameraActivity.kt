@@ -5,8 +5,6 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
-import android.graphics.Matrix
-import android.media.ExifInterface
 import android.net.Uri
 import android.os.Bundle
 import android.os.Environment
@@ -37,10 +35,8 @@ class CameraActivity : AppCompatActivity() {
 
     var currentImageNumberToHandle: Int = -1
     lateinit var gallery: ImageView
+    var currentBitmap: Bitmap? = null
 
-    companion object {
-        var currentBitmap: Bitmap? = null
-    }
 
     override fun onBackPressed() {
         if (currentImageNumberToHandle == -1) {
@@ -51,6 +47,8 @@ class CameraActivity : AppCompatActivity() {
                 .setNegativeButton("No", null)
                 .setPositiveButton("Yes") { _, _ ->
                     finish()
+                    CreatingPdf.bitmapFileArray.clear()
+                    CreatingPdf.bitmapArray.clear()
                 }
 
             val alertDialog: AlertDialog = builder.create()
@@ -115,14 +113,13 @@ class CameraActivity : AppCompatActivity() {
                         Constants.RC_WRITE_EXTERNAL_STORAGE
                     )
                 }
-                val tempFile: File = File(dir, "temp_${CreatingPdf.bitmapArray.size}.png")
+                val tempFile: File = File(dir, "temp_${CreatingPdf.bitmapFileArray.size}.jpeg")
                 try {
                     FileOutputStream(tempFile).use { out ->
                         currentBitmap?.compress(Bitmap.CompressFormat.PNG, 100, out)
                     }
 
                     CreatingPdf.bitmapFileArray.add(tempFile)
-                    CreatingPdf.bitmapArray.add(BitmapFactory.decodeFile(tempFile.absolutePath))
 
                 } catch (e: IOException) {
                     e.printStackTrace()
@@ -186,9 +183,9 @@ class CameraActivity : AppCompatActivity() {
         }
         val tempFile: File
         tempFile = if (currentImageNumberToHandle == -1)
-            File(dir, "temp_${CreatingPdf.bitmapArray.size}.png")
+            File(dir, "temp_${CreatingPdf.bitmapFileArray.size}.jpeg")
         else
-            File(dir, "temp_${currentImageNumberToHandle}.png")
+            File(dir, "temp_${currentImageNumberToHandle}.jpeg")
         val outputOptions = ImageCapture.OutputFileOptions.Builder(tempFile).build()
 
         imageCapture.takePicture(
@@ -210,16 +207,15 @@ class CameraActivity : AppCompatActivity() {
                     if (currentImageNumberToHandle == -1) {
                         current.setImageBitmap(currentBitmap)
                         CreatingPdf.bitmapFileArray.add(tempFile)
-                        CreatingPdf.bitmapArray.add(currentBitmap!!)
+  //                      CreatingPdf.bitmapArray.add(currentBitmap!!)
                     } else {
-                        CreatingPdf.bitmapFileArray.set(currentImageNumberToHandle, tempFile)
-                        CreatingPdf.bitmapArray.set(currentImageNumberToHandle, currentBitmap!!)
+                        CreatingPdf.bitmapFileArray[currentImageNumberToHandle] = tempFile
+//                        CreatingPdf.bitmapArray.set(currentImageNumberToHandle, currentBitmap!!)
                         val intent = Intent(this@CameraActivity, CropActivity::class.java)
                         intent.putExtra("modified", currentImageNumberToHandle)
                         startActivity(intent)
                         finish()
                     }
-
                 }
             })
     }
@@ -252,7 +248,7 @@ class CameraActivity : AppCompatActivity() {
         // First decode with inJustDecodeBounds=true to check dimensions
         return BitmapFactory.Options().run {
             inJustDecodeBounds = true
-            BitmapFactory.decodeFile(file.absolutePath)
+            BitmapFactory.decodeFile(file.absolutePath, this)
 
             // Calculate inSampleSize
             inSampleSize = calculateInSampleSize(this, reqWidth, reqHeight)
@@ -260,7 +256,7 @@ class CameraActivity : AppCompatActivity() {
             // Decode bitmap with inSampleSize set
             inJustDecodeBounds = false
 
-            BitmapFactory.decodeFile(file.absolutePath)
+            BitmapFactory.decodeFile(file.absolutePath,this)
         }
     }
 

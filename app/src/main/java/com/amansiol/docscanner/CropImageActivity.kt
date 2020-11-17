@@ -2,6 +2,7 @@ package com.amansiol.docscanner
 
 import android.content.Intent
 import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
@@ -15,6 +16,7 @@ class CropImageActivity : AppCompatActivity() {
     lateinit var cropImageView: CropImageView
     lateinit var currentFile: File
     var pos: Int = 0
+    var currentBitmap: Bitmap? = null
 
     override fun onBackPressed() {
         val intent: Intent = Intent(this, CropActivity::class.java)
@@ -24,7 +26,11 @@ class CropImageActivity : AppCompatActivity() {
     }
 
     fun getCroppedImage(view: View) {
-        CropActivity.currentBitmap = cropImageView.croppedImage
+        var prevBitmap: Bitmap? = currentBitmap
+        currentBitmap = cropImageView.croppedImage
+        prevBitmap?.recycle()
+        prevBitmap = null
+
         saveCroppedToFile()
 
         val intent: Intent = Intent(this, CropActivity::class.java)
@@ -36,7 +42,7 @@ class CropImageActivity : AppCompatActivity() {
     private fun saveCroppedToFile() {
         try {
             FileOutputStream(currentFile).use { out ->
-                CropActivity.currentBitmap.compress(Bitmap.CompressFormat.PNG, 100, out)
+               currentBitmap?.compress(Bitmap.CompressFormat.JPEG, 100, out)
             }
         } catch (e: IOException) {
             e.printStackTrace()
@@ -48,9 +54,11 @@ class CropImageActivity : AppCompatActivity() {
         setContentView(R.layout.activity_crop_image)
 
         cropImageView = findViewById(R.id.cropImageView)
-        cropImageView.setImageBitmap(CropActivity.currentBitmap)
 
         pos = intent.getIntExtra("position_in_array",0)
         currentFile = CreatingPdf.bitmapFileArray[pos]
+
+        currentBitmap = BitmapFactory.decodeFile(currentFile.absolutePath)
+        cropImageView.setImageBitmap(currentBitmap)
     }
 }
