@@ -18,16 +18,18 @@
             android:padding="8dp"
             android:layout_centerInParent="true"
             />
+
         <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/textItem"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:text="PDF To Doc"
             android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
             android:layout_marginBottom="16dp"
-            android:textSize="18sp"
             android:fontFamily="serif"
-            android:textColor="@color/colorTheme"/>
+            android:text="Doc To PDF"
+            android:textColor="@color/colorTheme"
+            android:textSize="18sp" />
 
     </RelativeLayout>
 

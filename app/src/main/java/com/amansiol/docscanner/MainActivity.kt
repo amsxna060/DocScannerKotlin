@@ -28,7 +28,6 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-
         fab_main = findViewById(R.id.fab)
         fab1_cam = findViewById(R.id.cam_fab)
         fab2_view = findViewById(R.id.fab_view)
