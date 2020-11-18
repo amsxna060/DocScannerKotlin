@@ -24,42 +24,63 @@ class ConversionAdapter(var context: Context): RecyclerView.Adapter<ConversionAd
     }
     override fun onBindViewHolder(holder: ConversionAdapter.ConversionViewHolder, position: Int) {
         val text: String=ConversionMenu.list[position]
+        var type : String=".pdf"
+        var ConversionType : String=".pdf"
         when(text){
             "Doc To Pdf"->{
                 holder.tpyeText.text=text
+                type=".doc"
+                ConversionType=".pdf"
                 holder.typeImage.setImageDrawable(ContextCompat.getDrawable(context,R.drawable.doctopdf))
             }
             "Image To Pdf"->{
                 holder.tpyeText.text=text
+                type=".jpg"
+                ConversionType=".pdf"
                 holder.typeImage.setImageDrawable(ContextCompat.getDrawable(context,R.drawable.imgtopdf))
             }
             "Excel to Pdf"->{
                 holder.tpyeText.text=text
+                type=".xlsx"
+                ConversionType=".pdf"
                 holder.typeImage.setImageDrawable(ContextCompat.getDrawable(context,R.drawable.extopdf))
             }
             "PPT to Pdf"->{
                 holder.tpyeText.text=text
+                type=".ppt"
+                ConversionType=".pdf"
                 holder.typeImage.setImageDrawable(ContextCompat.getDrawable(context,R.drawable.ppttopdf))
             }
             "Pdf to Doc"->{
                 holder.tpyeText.text=text
+                type=".pdf"
+                ConversionType=".doc"
                 holder.typeImage.setImageDrawable(ContextCompat.getDrawable(context,R.drawable.pdftodoc))
             }
             "Pdf to Excel"->{
                 holder.tpyeText.text=text
+                type=".pdf"
+                ConversionType=".xlsx"
                 holder.typeImage.setImageDrawable(ContextCompat.getDrawable(context,R.drawable.pdftoex))
             }
             "Pdf to Image"->{
                 holder.tpyeText.text=text
+                type=".pdf"
+                ConversionType=".jpg"
                 holder.typeImage.setImageDrawable(ContextCompat.getDrawable(context,R.drawable.pdftoimage))
             }
             "Pdf to PPT"->{
                 holder.tpyeText.text=text
+                type=".pdf"
+                ConversionType=".ppt"
                 holder.typeImage.setImageDrawable(ContextCompat.getDrawable(context,R.drawable.pdftoppt))
             }
         }
         holder.itemView.setOnClickListener(View.OnClickListener {
-            Toast.makeText(context,text,Toast.LENGTH_SHORT).show()
+            val intent: Intent= Intent(context,DeviceFile::class.java)
+            intent.putExtra("Type",type)
+            intent.putExtra("ConversionType",ConversionType)
+            context.startActivity(intent)
         })
     }
     class ConversionViewHolder(itemView : View) : RecyclerView.ViewHolder(itemView) {
