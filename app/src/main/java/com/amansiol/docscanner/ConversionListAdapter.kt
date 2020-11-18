@@ -1,6 +1,7 @@
 package com.amansiol.docscanner
 
 import android.content.Context
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -24,6 +25,7 @@ class ConversionListAdapter(var context: Context) : RecyclerView.Adapter<Convers
         val date : Date= Date(file.lastModified())
         holder.fileDate.text=date.toString()
         holder.fileThumbnail.text=file.extension
+        Log.i("Array",file.toString())
     }
 
     override fun getItemCount(): Int {

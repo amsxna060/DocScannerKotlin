@@ -35,9 +35,10 @@ class ConversionListTask(var context: Context,val type : String) : AsyncTask<Voi
     }
 
     override fun onPostExecute(result : String?) {
-        super.onPreExecute()
+        super.onPostExecute(result)
         if (result == null) {
             Toast.makeText(context,"Something went wrong!", Toast.LENGTH_SHORT).show()
         }
+        DeviceFile.conversionListAdapter.notifyDataSetChanged()
     }
 }

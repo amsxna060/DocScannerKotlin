@@ -29,15 +29,9 @@ class ConversionAdapter(var context: Context): RecyclerView.Adapter<ConversionAd
         when(text){
             "Doc To Pdf"->{
                 holder.tpyeText.text=text
-                type=".doc"
+                type=".docx"
                 ConversionType=".pdf"
                 holder.typeImage.setImageDrawable(ContextCompat.getDrawable(context,R.drawable.doctopdf))
-            }
-            "Image To Pdf"->{
-                holder.tpyeText.text=text
-                type=".jpg"
-                ConversionType=".pdf"
-                holder.typeImage.setImageDrawable(ContextCompat.getDrawable(context,R.drawable.imgtopdf))
             }
             "Excel to Pdf"->{
                 holder.tpyeText.text=text

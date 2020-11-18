@@ -18,7 +18,11 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".DeviceFile"></activity>
+        <activity
+            android:name=".DeviceFile"
+            android:theme="@style/AppTheme.NoActionBar"
+            >
+        </activity>
         <activity
             android:name=".FilterActivity"
             android:theme="@style/AppTheme.NoActionBar" />
@@ -32,6 +36,7 @@
             android:name=".CameraActivity"
             android:theme="@style/AppThemeFullScreen" />
         <activity android:name=".ViewAllPdf" />
+
         <activity
             android:name=".CreatingPdf"
             android:theme="@style/AppTheme.NoActionBar" />

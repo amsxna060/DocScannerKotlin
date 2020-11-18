@@ -23,15 +23,18 @@
             android:textSize="30sp"
             android:gravity="center"
             />
+
         <TextView
             android:id="@+id/file_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Pdf Title"
-            android:layout_toEndOf="@+id/thumbnail"
-            android:textSize="16sp"
             android:layout_marginStart="5dp"
-            android:padding="5dp"/>
+            android:layout_marginEnd="10dp"
+            android:layout_toStartOf="@+id/selectButton"
+            android:layout_toEndOf="@+id/thumbnail"
+            android:padding="5dp"
+            android:text="Pdf Title"
+            android:textSize="16sp" />
         <TextView
             android:id="@+id/file_date"
             android:layout_width="wrap_content"

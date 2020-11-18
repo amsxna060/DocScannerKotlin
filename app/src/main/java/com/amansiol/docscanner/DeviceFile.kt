@@ -7,12 +7,13 @@ import android.os.Bundle
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import java.io.File
-import kotlin.reflect.typeOf
 
 class DeviceFile : AppCompatActivity() {
     var type : String= ""
+    var ConversionType : String=""
     companion object{
         val FileArray : ArrayList<File> = ArrayList()
         lateinit var conversionListAdapter : ConversionListAdapter
@@ -37,7 +38,7 @@ class DeviceFile : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_device_file)
         type =intent.getStringExtra("Type")
-        val ConversionType :String=intent.getStringExtra("ConversionType")
+        ConversionType =intent.getStringExtra("ConversionType")
         Toast.makeText(this,type,Toast.LENGTH_SHORT).show()
         FileArray.clear()
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
@@ -49,7 +50,8 @@ class DeviceFile : AppCompatActivity() {
                 Constants.RC_READ_EXTERNAL_STORAGE)
         }
         val recyclerView : RecyclerView=findViewById(R.id.RecyclerViewSelect)
-        conversionListAdapter= ConversionListAdapter(this)
+        recyclerView.layoutManager=LinearLayoutManager(this)
+        conversionListAdapter= ConversionListAdapter(this@DeviceFile)
         recyclerView.adapter= conversionListAdapter
     }
 }

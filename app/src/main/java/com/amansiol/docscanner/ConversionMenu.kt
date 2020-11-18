@@ -15,7 +15,6 @@ class ConversionMenu : AppCompatActivity() {
         setContentView(R.layout.activity_conversion_menu)
         list.clear()
         list.add("Doc To Pdf")
-        list.add("Image To Pdf")
         list.add("Excel to Pdf")
         list.add("PPT to Pdf")
         list.add("Pdf to Doc")
