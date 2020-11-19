@@ -11,21 +11,21 @@ import java.lang.Exception
 class ConversionListTask(var context: Context,val type : String) : AsyncTask<Void,Void,String>(){
     override fun doInBackground(vararg params: Void?): String? {
         try {
-            fillPdfArray(Environment.getExternalStorageDirectory())
+            fillArray(Environment.getExternalStorageDirectory())
         } catch (e: Exception) {
-            Log.e("Err in fillPDFArray()",e.toString())
+            Log.e("Err in fillArray()",e.toString())
             return null
         }
         return "success"
     }
-    private fun fillPdfArray(dir : File){
+    private fun fillArray(dir : File){
         for(file in dir.listFiles()) {
             if (file.isDirectory) {
                 if (file.absolutePath.contentEquals("${Environment.getExternalStorageDirectory()}/${Constants.APP_FOLDER_NAME}")) {
                     //We are not interested in fetching the files of our created PDFs
                 }
                 else
-                    fillPdfArray(file)
+                    fillArray(file)
             } else {
                 if (file.name.endsWith(type)) {
                     DeviceFile.FileArray.add(file)

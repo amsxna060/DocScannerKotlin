@@ -37,6 +37,7 @@ class DeviceFile : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_device_file)
+
         type =intent.getStringExtra("Type")
         ConversionType =intent.getStringExtra("ConversionType")
         Toast.makeText(this,type,Toast.LENGTH_SHORT).show()

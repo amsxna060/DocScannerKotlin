@@ -19,6 +19,7 @@ import java.io.FileOutputStream
 import java.io.IOException
 import java.text.SimpleDateFormat
 import java.util.*
+import kotlin.collections.ArrayList
 
 
 /*
@@ -45,7 +46,10 @@ class PdfToImageConverter(
     var listOfPageNumbers: ArrayList<Int>
 ) {
 
-    fun convertSelectedPagesToImages() {
+    //when converting PDF to images, we may need the file array of converted images for merging and editing purposes
+    var returnedFileArray: ArrayList<File> = ArrayList()
+
+    fun convertSelectedPagesToImages(): ArrayList<File> {
         val renderer = PdfRenderer(
             ParcelFileDescriptor.open(
                 pdfFile,
@@ -68,6 +72,8 @@ class PdfToImageConverter(
 
             page.close()
         }
+
+        return returnedFileArray
     }
 
     private fun storeImage(bitmap: Bitmap, bitmapNumber: Int) {
@@ -75,8 +81,10 @@ class PdfToImageConverter(
             val pictureFile: File = getOutputFile(bitmapNumber)
             try {
                 val fos = FileOutputStream(pictureFile)
-                bitmap.compress(Bitmap.CompressFormat.PNG, 90, fos)
+                bitmap.compress(Bitmap.CompressFormat.JPEG, 90, fos)
                 fos.close()
+
+                returnedFileArray.add(pictureFile)
             } catch (e: FileNotFoundException) {
                 Log.d("error", "File not found: " + e.message)
                 Toast.makeText(
