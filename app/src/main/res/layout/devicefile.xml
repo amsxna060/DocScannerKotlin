@@ -8,6 +8,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <RelativeLayout
+        android:id="@+id/wholerow"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
@@ -30,7 +31,6 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="5dp"
             android:layout_marginEnd="10dp"
-            android:layout_toStartOf="@+id/selectButton"
             android:layout_toEndOf="@+id/thumbnail"
             android:padding="5dp"
             android:text="Pdf Title"
@@ -46,14 +46,6 @@
             android:layout_marginStart="5dp"
             android:padding="5dp"/>
 
-        <RadioButton
-            android:id="@+id/selectButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_marginEnd="8dp"
-            android:layout_marginTop="8dp"
-             />
 
     </RelativeLayout>
 
