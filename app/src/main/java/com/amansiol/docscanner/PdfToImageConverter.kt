@@ -73,6 +73,7 @@ class PdfToImageConverter(
             page.close()
         }
 
+        //return the file array to do actions like merging or editing
         return returnedFileArray
     }
 
