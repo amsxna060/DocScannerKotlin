@@ -5,6 +5,8 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.media.AudioAttributes
+import android.media.SoundPool
 import android.net.Uri
 import android.os.Bundle
 import android.os.Environment
@@ -127,11 +129,20 @@ class CameraActivity : AppCompatActivity() {
             }
         }
     }
-
+    private var soundPool: SoundPool? = null
+    private var sound1 = 0
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_camera)
-
+        val audioAttributes = AudioAttributes.Builder()
+            .setUsage(AudioAttributes.USAGE_ASSISTANCE_SONIFICATION)
+            .setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION)
+            .build()
+        soundPool = SoundPool.Builder()
+            .setMaxStreams(1)
+            .setAudioAttributes(audioAttributes)
+            .build()
+        sound1 = soundPool!!.load(this, R.raw.got_it_done, 1)
         gallery = findViewById(R.id.pickfromgallery)
 
         currentImageNumberToHandle = intent.getIntExtra("position_in_array", -1)
@@ -147,7 +158,9 @@ class CameraActivity : AppCompatActivity() {
 
             //capture photo by clicking button
             capture.setOnClickListener {
+                soundPool!!.play(sound1, 1f, 1f, 0, 0, 1f)
                 takePhoto()
+
             }
 
             done_capturing.setOnClickListener{
@@ -207,7 +220,7 @@ class CameraActivity : AppCompatActivity() {
                     if (currentImageNumberToHandle == -1) {
                         current.setImageBitmap(currentBitmap)
                         CreatingPdf.bitmapFileArray.add(tempFile)
-  //                      CreatingPdf.bitmapArray.add(currentBitmap!!)
+                        //                      CreatingPdf.bitmapArray.add(currentBitmap!!)
                     } else {
                         CreatingPdf.bitmapFileArray[currentImageNumberToHandle] = tempFile
 //                        CreatingPdf.bitmapArray.set(currentImageNumberToHandle, currentBitmap!!)
@@ -256,7 +269,7 @@ class CameraActivity : AppCompatActivity() {
             // Decode bitmap with inSampleSize set
             inJustDecodeBounds = false
 
-            BitmapFactory.decodeFile(file.absolutePath,this)
+            BitmapFactory.decodeFile(file.absolutePath, this)
         }
     }
 
@@ -310,4 +323,9 @@ class CameraActivity : AppCompatActivity() {
         isFlashOn = !isFlashOn
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        soundPool!!.release()
+        soundPool = null
+    }
 }

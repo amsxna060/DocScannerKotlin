@@ -19,10 +19,16 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".SplashScreen"
-            android:theme="@style/AppThemeFullScreen"></activity>
+            android:theme="@style/AppThemeFullScreen">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
         <activity
             android:name=".DeviceFile"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar"/>
         <activity
             android:name=".FilterActivity"
             android:theme="@style/AppTheme.NoActionBar" />
@@ -30,10 +36,11 @@
         <activity
             android:name=".CropActivity"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".PdfViewActivity" />
+        <activity android:name=".PdfViewActivity"
+            android:theme="@style/AppThemeFullScreen"/>
         <activity
             android:name=".ConversionMenu"
-            android:theme="@style/AppThemeFullScreen"></activity>
+            android:theme="@style/AppThemeFullScreen"/>
         <activity
             android:name=".CameraActivity"
             android:theme="@style/AppThemeFullScreen" />
@@ -44,11 +51,7 @@
         <activity
             android:name=".MainActivity"
             android:theme="@style/AppThemeFullScreen">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
 
         <provider

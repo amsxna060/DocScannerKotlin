@@ -15,6 +15,7 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
 import androidx.recyclerview.widget.RecyclerView
+import com.blogspot.atifsoftwares.animatoolib.Animatoo
 import java.io.File
 import java.util.*
 
@@ -77,6 +78,7 @@ class PDFListAdapter(var context: Context) : RecyclerView.Adapter<PDFListAdapter
             intent.putExtra(Constants.INTENT_POSITION_KEY_NAME, position)
             intent.putExtra(Constants.IS_FROM_DEVICE,true)
             context.startActivity(intent)
+            Animatoo.animateSplit(context)
         })
     }
 
