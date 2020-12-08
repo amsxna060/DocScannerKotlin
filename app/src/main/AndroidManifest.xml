@@ -18,11 +18,11 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".SplashScreen"
+            android:theme="@style/AppThemeFullScreen"></activity>
         <activity
             android:name=".DeviceFile"
-            android:theme="@style/AppTheme.NoActionBar"
-            >
-        </activity>
+            android:theme="@style/AppTheme.NoActionBar"></activity>
         <activity
             android:name=".FilterActivity"
             android:theme="@style/AppTheme.NoActionBar" />
@@ -31,16 +31,19 @@
             android:name=".CropActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".PdfViewActivity" />
-        <activity android:name=".ConversionMenu" />
+        <activity
+            android:name=".ConversionMenu"
+            android:theme="@style/AppThemeFullScreen"></activity>
         <activity
             android:name=".CameraActivity"
             android:theme="@style/AppThemeFullScreen" />
         <activity android:name=".ViewAllPdf" />
-
         <activity
             android:name=".CreatingPdf"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".MainActivity">
+        <activity
+            android:name=".MainActivity"
+            android:theme="@style/AppThemeFullScreen">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -57,6 +60,10 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/provider_paths" />
         </provider>
+
+        <meta-data
+            android:name="preloaded_fonts"
+            android:resource="@array/preloaded_fonts" />
     </application>
 
 </manifest>

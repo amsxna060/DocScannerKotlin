@@ -1,8 +1,12 @@
 package com.amansiol.docscanner
 
 import android.content.Intent
+import android.graphics.Color
+import android.os.Build
 import android.os.Bundle
 import android.view.View
+import android.view.Window
+import android.view.WindowManager
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
 import android.widget.TextView
@@ -27,6 +31,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        getWindow().setStatusBarColor(Color.parseColor("#7F3D5AFE"));
         setContentView(R.layout.activity_main)
         fab_main = findViewById(R.id.fab)
         fab1_cam = findViewById(R.id.cam_fab)

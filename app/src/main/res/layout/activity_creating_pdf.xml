@@ -68,7 +68,7 @@
         android:clickable="true"
         android:focusable="true"
         android:onClick="appendClicking"
-        android:tint="@android:color/white"
+        android:tintMode="@android:color/white"
         android:backgroundTint="@color/colorTheme"
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"

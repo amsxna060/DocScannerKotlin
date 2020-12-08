@@ -4,20 +4,65 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#F4F4F4"
     tools:context=".MainActivity">
     <androidx.appcompat.widget.AppCompatImageView
-        android:layout_width="180dp"
-        android:layout_height="200dp"
-        app:srcCompat="@drawable/bigbgasset"
-        android:layout_centerHorizontal="true"
-        android:layout_alignParentBottom="true"
-        android:layout_marginBottom="16dp"
+        android:layout_width="120dp"
+        android:layout_height="150dp"
+        app:srcCompat="@drawable/redframe"
+        android:layout_centerInParent="true"
+        />
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/maindoc"
+        android:layout_width="120dp"
+        android:layout_height="150dp"
+        app:srcCompat="@drawable/maindoc"
+        android:layout_centerInParent="true"
+        />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Scan Document"
+        android:layout_centerInParent="true"
+        android:textSize="22sp"
+        android:textStyle="italic"
+        android:fontFamily="serif"
+        android:layout_below="@+id/maindoc"/>
+
+    <RelativeLayout
+        android:id="@+id/titlebar"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:padding="0dp">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Doc's Scanner"
+            android:src="@drawable/docscanner"
+            android:layout_marginStart="16dp"
+            android:layout_centerVertical="true" />
+        <androidx.appcompat.widget.AppCompatImageView
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@drawable/settings"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="16dp"
+            android:layout_marginTop="8dp"
+            />
+    </RelativeLayout>
+    <androidx.appcompat.widget.SearchView
+        android:id="@+id/searchbar"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_below="@+id/titlebar"
+        android:background="@drawable/searchbg"
+        android:layout_margin="10dp"
         />
     <androidx.recyclerview.widget.RecyclerView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:itemCount="4"
+        tools:itemCount="1"
+        android:layout_below="@+id/searchbar"
         tools:listitem="@layout/recent_pdf_row"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         />
@@ -46,6 +91,7 @@
         android:background="?android:attr/selectableItemBackground"
         android:clickable="true"
         android:elevation="16dp"
+        android:tintMode="@color/colorWhite"
         android:focusable="true"
         android:visibility="invisible"
         app:backgroundTint="@color/colorTheme"
@@ -75,6 +121,7 @@
         android:layout_marginEnd="24dp"
         android:background="?android:attr/selectableItemBackground"
         android:clickable="true"
+        android:tintMode="@color/colorWhite"
         android:elevation="16dp"
         android:focusable="true"
         android:visibility="invisible"
@@ -110,6 +157,7 @@
         android:focusable="true"
         android:visibility="invisible"
         app:backgroundTint="@color/colorTheme"
+        android:tintMode="@color/colorWhite"
         app:pressedTranslationZ="12dp"
         app:srcCompat="@drawable/ic_baseline_camera_alt_24" />
 
@@ -128,6 +176,7 @@
         android:visibility="visible"
         app:backgroundTint="@color/colorTheme"
         app:pressedTranslationZ="12dp"
+        android:tintMode="@color/colorWhite"
         app:srcCompat="@drawable/ic_baseline_add_24" />
 
 </RelativeLayout>

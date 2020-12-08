@@ -1,9 +1,12 @@
 package com.amansiol.docscanner
 
-import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
+import android.os.Build
 import android.os.Bundle
+import android.view.Window
+import android.view.WindowManager
+import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.RecyclerView
+
 
 class ConversionMenu : AppCompatActivity() {
     companion object{
@@ -12,6 +15,13 @@ class ConversionMenu : AppCompatActivity() {
     }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            val w: Window = window
+            w.setFlags(
+                WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS,
+                WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS
+            )
+        }
         setContentView(R.layout.activity_conversion_menu)
         list.clear()
         list.add("Doc To Pdf")

@@ -41,7 +41,7 @@
         android:id="@+id/image_to_filter"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:src="@drawable/bwpage"
+        android:src="@drawable/temppage"
         android:layout_above="@+id/image_number_to_filter"
         android:layout_margin="16dp"/>
 
@@ -112,8 +112,9 @@
                 <ImageView
                     android:id="@+id/noneImageView"
                     android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:src="@drawable/bwpage"/>
+                    android:layout_height="60dp"
+                    android:src="@drawable/temppage"
+                    android:background="#C1BEBE"/>
 
                 <TextView
                     android:text="None"
@@ -134,8 +135,9 @@
                 <ImageView
                     android:id="@+id/blackImageView"
                     android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:src="@drawable/bwpage"/>
+                    android:layout_height="60dp"
+                    android:src="@drawable/temppage"
+                    android:background="#F8F8F8"/>
 
                 <TextView
                     android:text="Black"
@@ -156,8 +158,9 @@
                 <ImageView
                     android:id="@+id/grayImageView"
                     android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:src="@drawable/bwpage"/>
+                    android:layout_height="60dp"
+                    android:src="@drawable/temppage"
+                    android:background="#BFBFBF"/>
 
                 <TextView
                     android:text="Gray"
@@ -178,8 +181,9 @@
                 <ImageView
                     android:id="@+id/hdrImageView"
                     android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:src="@drawable/bwpage"/>
+                    android:layout_height="60dp"
+                    android:src="@drawable/temppage"
+                    android:background="#DFDFDF"/>
 
                 <TextView
                     android:text="HDR"
@@ -200,8 +204,9 @@
                 <ImageView
                     android:id="@+id/glowImageView"
                     android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:src="@drawable/bwpage"/>
+                    android:layout_height="60dp"
+                    android:src="@drawable/temppage"
+                    android:background="#ECEEFA"/>
 
                 <TextView
                     android:text="Glow"

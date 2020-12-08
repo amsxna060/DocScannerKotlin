@@ -10,27 +10,27 @@
         android:id="@+id/viewFinder"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@+id/btncamera"
         tools:ignore="MissingClass" />
 
+    <androidx.appcompat.widget.AppCompatImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:src="@drawable/temppic"
+        android:layout_marginTop="50dp"
+        android:layout_marginBottom="50dp"
+        android:layout_marginStart="20dp"
+        android:layout_centerInParent="true"
+        android:visibility="gone"
+        android:layout_marginEnd="20dp"/>
 
 <!--    android:id="@+id/gallery"-->
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/capture"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
-        android:layout_centerHorizontal="true"
-        android:layout_alignParentBottom="true"
-        android:layout_marginBottom="50dp"
-        android:src="@drawable/ic_baseline_camera_24"
-        app:maxImageSize="40dp"
-        android:backgroundTint="#323232" />
+
 
     <RelativeLayout
         android:id="@+id/btncamera"
         android:layout_width="match_parent"
         android:layout_height="80dp"
-        android:background="#B5000000"
+        android:background="@color/transparent"
         android:layout_alignParentBottom="true">
 
         <ImageView
@@ -49,29 +49,62 @@
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:layout_marginStart="24dp"
+            android:padding="5dp"
             android:layout_centerVertical="true"
             android:layout_toEndOf="@+id/pickfromgallery"
             android:contentDescription="open flash"
             app:srcCompat="@drawable/ic_baseline_flash_on_24" />
 
-        <ImageView
+        <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/current"
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:layout_centerVertical="true"
             android:layout_marginEnd="24dp"
             android:layout_toStartOf="@+id/done_capturing"
-            android:src="@drawable/bwpages" />
+            android:background="#7FF1F1F1"
+            app:siStrokeJoin="round"
+            app:siRadius="2dp"
+             />
+        <TextView
+            android:id="@+id/photo_number"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:text="0"
+            android:textColor="@color/colorWhite"
+            android:padding="1dp"
+            android:gravity="center"
+            android:textSize="12sp"
+            android:textStyle="bold"
+            android:layout_alignTop="@+id/current"
+            android:layout_alignRight="@+id/current"
+            android:layout_marginEnd="-8dp"
+            android:layout_marginTop="-8dp"
+            android:background="@drawable/blueroundsquare"/>
 
-        <Button
+        <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/done_capturing"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Done"
-            android:textColor="@android:color/white"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
             android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
-            android:background="@drawable/done_btn_background"/>
+            android:layout_marginEnd="16dp"
+            android:tint="@color/colorTheme"
+            android:src="@drawable/ic_baseline_done_24"
+          />
     </RelativeLayout>
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/capture"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="50dp"
+        app:maxImageSize="30dp"
+        android:tintMode="@color/colorWhite"
+        app:rippleColor="@color/colorTheme"
+        android:scaleType="centerCrop"
+        android:src="@drawable/ic_baseline_camera_24"
+        android:backgroundTint="@color/colorTheme" />
 
 </RelativeLayout>

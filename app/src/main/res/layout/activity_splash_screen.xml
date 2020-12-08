@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorTheme"
+    tools:context=".SplashScreen">
+
+
+    <ImageView
+        android:id="@+id/imageView6"
+        android:layout_width="206dp"
+        android:layout_height="272dp"
+        app:srcCompat="@drawable/whiteframe"
+        tools:layout_editor_absoluteX="108dp"
+        android:layout_centerInParent="true"
+        tools:layout_editor_absoluteY="254dp" />
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="206dp"
+        android:layout_height="272dp"
+        app:srcCompat="@drawable/pdficon"
+        tools:layout_editor_absoluteX="108dp"
+        android:layout_centerInParent="true"
+        tools:layout_editor_absoluteY="254dp" />
+
+    <ImageView
+        android:id="@+id/imageView2"
+        android:layout_width="200dp"
+        android:layout_height="50dp"
+        android:layout_above="@+id/imageView"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="60dp"
+        app:srcCompat="@drawable/scanning" />
+
+    <ImageView
+        android:id="@+id/imageView3"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        app:srcCompat="@drawable/camerabtn"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="24dp"
+        />
+    <ImageView
+        android:id="@+id/imageView4"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        app:srcCompat="@drawable/galleryicon"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="30dp"
+        android:layout_marginStart="30dp"
+        />
+</RelativeLayout>

@@ -20,15 +20,17 @@
 
         <ImageView
             android:id="@+id/remove_page_from_pdf"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
             android:src="@drawable/ic_baseline_close_24"
             android:background="@drawable/roundsquare"
             android:layout_alignEnd="@+id/imageitem"
             android:layout_alignTop="@id/imageitem"
             android:layout_marginEnd="8dp"
             android:layout_marginTop="8dp"
-            />
+            app:tint="#fff"
+            android:scaleType="centerCrop"
+            android:backgroundTint="#ff0000"/>
         <TextView
             android:id="@+id/photo_number"
             android:layout_width="20dp"

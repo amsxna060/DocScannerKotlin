@@ -26,6 +26,7 @@
         android:layout_marginEnd="16dp"
         android:background="@drawable/done_btn_background"
         android:text="Done"
+        android:backgroundTint="@color/colorTheme"
         android:onClick="getCroppedImage"
         android:id="@+id/done_cropping"
         android:textColor="@android:color/white"
