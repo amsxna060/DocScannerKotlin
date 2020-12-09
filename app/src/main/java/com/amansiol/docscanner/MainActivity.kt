@@ -3,13 +3,19 @@ package com.amansiol.docscanner
 import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
+import android.os.Environment
 import android.view.View
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
+import android.widget.ImageView
+import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.blogspot.atifsoftwares.animatoolib.Animatoo
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import java.io.File
 
 class MainActivity : AppCompatActivity() {
 
@@ -24,12 +30,22 @@ class MainActivity : AppCompatActivity() {
     lateinit var textview_view: TextView
     lateinit var textview_cam: TextView
     lateinit var textview_convert: TextView
+    lateinit var progressBsr: ProgressBar
     var isOpen =false
+
+    companion object {
+        lateinit var backImage: ImageView
+        lateinit var pdfListAdapter: OurAppPDFListAdapter
+        val appPDFArray: ArrayList<File> = ArrayList()
+    }
+
+    lateinit var recyclerView: RecyclerView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        getWindow().setStatusBarColor(Color.parseColor("#7F3D5AFE"));
+        window.statusBarColor = Color.parseColor("#7F3D5AFE");
         setContentView(R.layout.activity_main)
+
         fab_main = findViewById(R.id.fab)
         fab1_cam = findViewById(R.id.cam_fab)
         fab2_view = findViewById(R.id.fab_view)
@@ -44,6 +60,17 @@ class MainActivity : AppCompatActivity() {
         textview_view = findViewById(R.id.textview_cam)
         textview_cam = findViewById(R.id.textview_view)
         textview_convert= findViewById(R.id.textView_convert)
+
+        pdfListAdapter = OurAppPDFListAdapter(this, appPDFArray)
+        recyclerView = findViewById(R.id.our_app_pdfs)
+        recyclerView.layoutManager = LinearLayoutManager(this)
+        recyclerView.adapter = pdfListAdapter
+
+        progressBsr = findViewById(R.id.our_app_pdf_load_progressbar)
+        progressBsr.visibility = View.VISIBLE
+
+        val task: LoadPDFs = LoadPDFs(this,progressBsr, File("${Environment.getExternalStorageDirectory()}" + "/${Constants.APP_FOLDER_NAME}"), appPDFArray)
+        task.execute()
 
         fab_main.setOnClickListener(View.OnClickListener {
             if (isOpen) {

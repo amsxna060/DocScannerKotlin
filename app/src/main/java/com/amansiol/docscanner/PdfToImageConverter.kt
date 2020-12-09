@@ -21,7 +21,6 @@ import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
 
-
 /*
 * A class to convert the PDF file to Images and store it to the external storage
 * The class takes three parameters in its constructor

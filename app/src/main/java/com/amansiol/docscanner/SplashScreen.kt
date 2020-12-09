@@ -9,8 +9,12 @@ import androidx.appcompat.app.AppCompatActivity
 class SplashScreen : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        getWindow().setStatusBarColor(Color.parseColor("#3D5AFE"))
+        window.statusBarColor = Color.parseColor("#3D5AFE")
         setContentView(R.layout.activity_splash_screen)
-        Handler().postDelayed({ startActivity(Intent(this@SplashScreen, MainActivity::class.java)) }, 1000)
+
+        Handler().postDelayed({
+            startActivity(Intent(this@SplashScreen, MainActivity::class.java))
+            finish()
+        }, 1000)
     }
 }

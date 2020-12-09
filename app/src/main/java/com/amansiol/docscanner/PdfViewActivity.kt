@@ -19,10 +19,10 @@ class PdfViewActivity : AppCompatActivity() {
         val position: Int = intent.getIntExtra(Constants.INTENT_POSITION_KEY_NAME, -1)
         val pdfFileIsFromDevice = intent.getBooleanExtra(Constants.IS_FROM_DEVICE, false)
 
-        if (pdfFileIsFromDevice)
-            pdfFile = ViewAllPdf.pdfArray[position]
+        pdfFile = if (pdfFileIsFromDevice)
+            ViewAllPdf.pdfArray[position]
         else {
-            //pdf is from our app folder to be fetched
+            MainActivity.appPDFArray[position]
         }
 
         if (position != -1) {

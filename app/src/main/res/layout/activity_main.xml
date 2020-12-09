@@ -16,8 +16,8 @@
         android:layout_width="120dp"
         android:layout_height="150dp"
         app:srcCompat="@drawable/maindoc"
-        android:layout_centerInParent="true"
-        />
+        android:layout_centerInParent="true" />
+
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -58,14 +58,15 @@
         android:background="@drawable/searchbg"
         android:layout_margin="10dp"
         />
+
     <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/our_app_pdfs"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:itemCount="1"
         android:layout_below="@+id/searchbar"
-        tools:listitem="@layout/recent_pdf_row"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-        />
+        tools:itemCount="1"
+        tools:listitem="@layout/recent_pdf_row" />
     <TextView
         android:id="@+id/textView_convert"
         android:layout_width="wrap_content"
@@ -178,5 +179,16 @@
         app:pressedTranslationZ="12dp"
         android:tintMode="@color/colorWhite"
         app:srcCompat="@drawable/ic_baseline_add_24" />
+
+    <ProgressBar
+        android:id="@+id/our_app_pdf_load_progressbar"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:indeterminateTint="@color/colorTheme"
+        android:layout_marginEnd="179dp"
+        android:layout_marginBottom="341dp" />
 
 </RelativeLayout>

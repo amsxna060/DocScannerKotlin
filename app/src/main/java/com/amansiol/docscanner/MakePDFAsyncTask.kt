@@ -30,6 +30,8 @@ class MakePDFAsyncTask(var context: Context, var fileArray: ArrayList<File>, var
         super.onPostExecute(result)
         progressDialog.dismiss()
         Toast.makeText(context, "File saved!",Toast.LENGTH_SHORT).show()
+        MainActivity.pdfListAdapter.notifyDataSetChanged()
+
         CreatingPdf.bitmapArray.clear()
         CreatingPdf.bitmapFileArray.clear()
         val currentActivity = context as Activity
