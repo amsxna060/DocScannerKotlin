@@ -4,13 +4,13 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.graphics.pdf.PdfRenderer
 import android.net.Uri
+import android.os.ParcelFileDescriptor
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.TextView
-import android.widget.Toast
+import android.widget.*
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
@@ -20,7 +20,11 @@ import java.io.File
 import java.util.*
 import kotlin.collections.ArrayList
 
-class OurAppPDFListAdapter(var context: Context, var pdfArray: ArrayList<File>) :  RecyclerView.Adapter<OurAppPDFListAdapter.OurPDFViewHolder>(){
+class OurAppPDFListAdapter(var context: Context, var pdfArray: ArrayList<File>) :  RecyclerView.Adapter<OurAppPDFListAdapter.OurPDFViewHolder>(), Filterable{
+    var pdfArrayFull: ArrayList<File> = ArrayList()
+    init {
+        pdfArrayFull.addAll(pdfArray)
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): OurPDFViewHolder {
         val view: View = LayoutInflater.from(context).inflate(R.layout.recent_pdf_row, parent,false)
@@ -54,9 +58,19 @@ class OurAppPDFListAdapter(var context: Context, var pdfArray: ArrayList<File>) 
 
         //To edit PDF
         holder.editImageView.setOnClickListener(View.OnClickListener {
-            //to be implemented
+
             PDFListAdapter.fileToBeDeleted = null
-            Toast.makeText(context,"Edit toast", Toast.LENGTH_SHORT).show()
+            val listOfPages: ArrayList<Int> = ArrayList()
+            val renderer = PdfRenderer(ParcelFileDescriptor.open(file, ParcelFileDescriptor.MODE_READ_ONLY))
+            val noOfPages = renderer.pageCount
+
+            for (i in 0 until noOfPages) {
+                listOfPages.add(i)
+            }
+            val converter: PdfToImageConverter = PdfToImageConverter(context, file, listOfPages)
+            CreatingPdf.bitmapFileArray = converter.convertSelectedPagesToImages()
+            val intent: Intent = Intent(context, CropActivity::class.java)
+            context.startActivity(intent)
         })
 
         //In general onClick listener on a listItem to show the PDF
@@ -96,4 +110,36 @@ class OurAppPDFListAdapter(var context: Context, var pdfArray: ArrayList<File>) 
         val shareImageView: ImageView = itemView.findViewById(R.id.file_share)
         val editImageView: ImageView = itemView.findViewById(R.id.file_edit_name)
     }
+
+    override fun getFilter(): Filter {
+        return filter
+    }
+
+    private val filter: Filter = object : Filter() {
+        override fun performFiltering(constraint: CharSequence?): FilterResults {
+            val filteredFiles : ArrayList<File> = ArrayList()
+
+            if (constraint == null || constraint.isEmpty()) {
+                filteredFiles.addAll(pdfArrayFull)
+            } else {
+                for (file in pdfArrayFull) {
+                    if (file.name.contains(constraint)) {
+                        filteredFiles.add(file)
+                    }
+                }
+            }
+
+            val results : FilterResults = FilterResults()
+            results.values = filteredFiles
+
+            return results
+        }
+
+        override fun publishResults(constraint: CharSequence?, results: FilterResults?) {
+            pdfArray.clear()
+            pdfArray.addAll(results?.values as ArrayList<File>)
+            notifyDataSetChanged()
+        }
+    }
+
 }

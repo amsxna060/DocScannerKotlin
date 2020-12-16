@@ -27,7 +27,7 @@ class CreatingPdf : AppCompatActivity() {
 
     companion object {
         val bitmapArray: ArrayList<Bitmap> = ArrayList()
-        val bitmapFileArray: ArrayList<File> = ArrayList()
+        var bitmapFileArray: ArrayList<File> = ArrayList()
         lateinit var adapter: BitmapAdapter
     }
 

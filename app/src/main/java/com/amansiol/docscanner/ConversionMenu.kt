@@ -31,6 +31,7 @@ class ConversionMenu : AppCompatActivity() {
         list.add("Pdf to Excel")
         list.add("Pdf to Image")
         list.add("Pdf to PPT")
+        list.add("Edit a PDF")
         val recycler: RecyclerView=findViewById(R.id.ConversionRecyclerView)
         Conversionadapter= ConversionAdapter(this@ConversionMenu)
         recycler.adapter= Conversionadapter

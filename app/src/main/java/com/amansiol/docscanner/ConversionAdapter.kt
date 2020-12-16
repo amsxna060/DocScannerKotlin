@@ -69,6 +69,12 @@ class ConversionAdapter(var context: Context): RecyclerView.Adapter<ConversionAd
                 ConversionType=".ppt"
                 holder.typeImage.setImageDrawable(ContextCompat.getDrawable(context,R.drawable.pdftoppt))
             }
+            "Edit a PDF"-> {
+                holder.tpyeText.text = text
+                type = ".pdf"
+                ConversionType = ".pdf"
+                holder.typeImage.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.viewpdf))
+            }
         }
         holder.itemView.setOnClickListener(View.OnClickListener {
             val intent: Intent= Intent(context,DeviceFile::class.java)

@@ -41,14 +41,14 @@
             android:src="@drawable/docscanner"
             android:layout_marginStart="16dp"
             android:layout_centerVertical="true" />
+
         <androidx.appcompat.widget.AppCompatImageView
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:src="@drawable/settings"
             android:layout_alignParentEnd="true"
             android:layout_marginEnd="16dp"
-            android:layout_marginTop="8dp"
-            />
+            android:layout_marginTop="8dp" />
     </RelativeLayout>
     <androidx.appcompat.widget.SearchView
         android:id="@+id/searchbar"
@@ -56,8 +56,7 @@
         android:layout_height="50dp"
         android:layout_below="@+id/titlebar"
         android:background="@drawable/searchbg"
-        android:layout_margin="10dp"
-        />
+        android:layout_margin="10dp" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/our_app_pdfs"

@@ -10,12 +10,14 @@ import android.view.animation.AnimationUtils
 import android.widget.ImageView
 import android.widget.ProgressBar
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.blogspot.atifsoftwares.animatoolib.Animatoo
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import java.io.File
+
 
 class MainActivity : AppCompatActivity() {
 
@@ -31,6 +33,7 @@ class MainActivity : AppCompatActivity() {
     lateinit var textview_cam: TextView
     lateinit var textview_convert: TextView
     lateinit var progressBsr: ProgressBar
+    lateinit var searchbar: androidx.appcompat.widget.SearchView
     var isOpen =false
 
     companion object {
@@ -61,6 +64,8 @@ class MainActivity : AppCompatActivity() {
         textview_cam = findViewById(R.id.textview_view)
         textview_convert= findViewById(R.id.textView_convert)
 
+        searchbar = findViewById(R.id.searchbar)
+
         pdfListAdapter = OurAppPDFListAdapter(this, appPDFArray)
         recyclerView = findViewById(R.id.our_app_pdfs)
         recyclerView.layoutManager = LinearLayoutManager(this)
@@ -69,7 +74,12 @@ class MainActivity : AppCompatActivity() {
         progressBsr = findViewById(R.id.our_app_pdf_load_progressbar)
         progressBsr.visibility = View.VISIBLE
 
-        val task: LoadPDFs = LoadPDFs(this,progressBsr, File("${Environment.getExternalStorageDirectory()}" + "/${Constants.APP_FOLDER_NAME}"), appPDFArray)
+        val task: LoadPDFs = LoadPDFs(
+            this,
+            progressBsr,
+            File("${Environment.getExternalStorageDirectory()}" + "/${Constants.APP_FOLDER_NAME}"),
+            appPDFArray
+        )
         task.execute()
 
         fab_main.setOnClickListener(View.OnClickListener {
@@ -117,6 +127,25 @@ class MainActivity : AppCompatActivity() {
 //            startActivity(intent)
 //            Animatoo.animateZoom(this@MainActivity)
 //        })
+
+        searchbar.setOnQueryTextListener(object :
+            androidx.appcompat.widget.SearchView.OnQueryTextListener {
+            override fun onQueryTextChange(newText: String?): Boolean {
+                pdfListAdapter.filter.filter(newText)
+                return false
+            }
+
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                return false
+            }
+        })
+
+        searchbar.setOnCloseListener(androidx.appcompat.widget.SearchView.OnCloseListener {
+            val t = Toast.makeText(this@MainActivity, "close", Toast.LENGTH_SHORT)
+            t.show()
+
+            return@OnCloseListener false
+        })
 
     }
 }

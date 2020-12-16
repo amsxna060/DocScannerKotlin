@@ -8,7 +8,7 @@ import android.widget.Toast
 import java.io.File
 import java.lang.Exception
 
-class ConversionListTask(var context: Context,val type : String) : AsyncTask<Void,Void,String>(){
+class ConversionListTask(var context: Context, private val type : String) : AsyncTask<Void,Void,String>(){
     override fun doInBackground(vararg params: Void?): String? {
         try {
             fillArray(Environment.getExternalStorageDirectory())
