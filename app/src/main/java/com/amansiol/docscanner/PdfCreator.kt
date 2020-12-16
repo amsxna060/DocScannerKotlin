@@ -20,10 +20,11 @@ import java.lang.Exception
 //The below class converts the BitmapArray to the Pdf Document
 class PdfCreator(var context: Context, var bitmapFileArray: ArrayList<File>, var filename: String) {
 
-    fun createPDF() {
+    fun createPDF(): File? {
         val document: PdfDocument = PdfDocument()
-        for(i in 0 until bitmapFileArray.size) {
-            val pageInfo: PdfDocument.PageInfo = PdfDocument.PageInfo.Builder(592,842,i + 1).create()
+        for (i in 0 until bitmapFileArray.size) {
+            val pageInfo: PdfDocument.PageInfo =
+                PdfDocument.PageInfo.Builder(592, 842, i + 1).create()
             val page: PdfDocument.Page = document.startPage(pageInfo)
 
             var currentBitmap = BitmapFactory.decodeFile(bitmapFileArray[i].absolutePath)
@@ -34,37 +35,37 @@ class PdfCreator(var context: Context, var bitmapFileArray: ArrayList<File>, var
             val left: Float = (592 - currentBitmap.width.toFloat()) / 2
             val top: Float = (842 - currentBitmap.height.toFloat()) / 2
 
-            page.canvas.drawBitmap(currentBitmap,left,top,null)
+            page.canvas.drawBitmap(currentBitmap, left, top, null)
             document.finishPage(page)
         }
 
-        writeToFileSystem(document)
+        return writeToFileSystem(document)
     }
 
-    private fun getResizedBitmap(bitmap: Bitmap) : Bitmap {
+    private fun getResizedBitmap(bitmap: Bitmap): Bitmap {
         val width = bitmap.width
         val height = bitmap.height
 
         val resizedBitmap: Bitmap
         if (width < 592 && height < 842) {
-            resizedBitmap =  bitmap
+            resizedBitmap = bitmap
         } else if (width > 592 && height > 842) {
             val scaleWidth = 592 / width.toFloat()
             val scaleHeight = 842 / height.toFloat()
             val matrix = Matrix()
             matrix.postScale(scaleWidth, scaleHeight)
-            resizedBitmap =  Bitmap.createBitmap(bitmap,0,0, width, height, matrix,false)
-        } else if(width > 592) {
+            resizedBitmap = Bitmap.createBitmap(bitmap, 0, 0, width, height, matrix, false)
+        } else if (width > 592) {
             val scaleWidth = 592 / width.toFloat()
             val matrix = Matrix()
             matrix.postScale(scaleWidth, scaleWidth)
-            resizedBitmap = Bitmap.createBitmap(bitmap,0,0, width, height, matrix,false)
-        } else if(height > 842) {
+            resizedBitmap = Bitmap.createBitmap(bitmap, 0, 0, width, height, matrix, false)
+        } else if (height > 842) {
             //scale height
             val scaleHeight = 842 / height.toFloat()
             val matrix = Matrix()
             matrix.postScale(scaleHeight, scaleHeight)
-            resizedBitmap = Bitmap.createBitmap(bitmap,0,0, width, height, matrix,false)
+            resizedBitmap = Bitmap.createBitmap(bitmap, 0, 0, width, height, matrix, false)
         } else {
             //For some unknown situation
             resizedBitmap = bitmap
@@ -72,8 +73,12 @@ class PdfCreator(var context: Context, var bitmapFileArray: ArrayList<File>, var
         return resizedBitmap
     }
 
-    private fun writeToFileSystem(document: PdfDocument) {
-        if (ContextCompat.checkSelfPermission(context,Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
+    private fun writeToFileSystem(document: PdfDocument): File? {
+        if (ContextCompat.checkSelfPermission(
+                context,
+                Manifest.permission.WRITE_EXTERNAL_STORAGE
+            ) == PackageManager.PERMISSION_GRANTED
+        ) {
             try {
                 val path =
                     Environment.getExternalStorageDirectory().absolutePath + "/${Constants.APP_FOLDER_NAME}"
@@ -84,13 +89,20 @@ class PdfCreator(var context: Context, var bitmapFileArray: ArrayList<File>, var
                 val file: File = File(dir, "$filename.pdf")
                 document.writeTo(FileOutputStream(file))
                 document.close()
+                return file
 //                Toast.makeText(context,"File saved",Toast.LENGTH_SHORT).show()
             } catch (e: Exception) {
                 //Toast.makeText(context, "Something went wrong while saving PDF",Toast.LENGTH_SHORT).show()
                 Log.e("Exception!!!!- ", e.toString())
             }
         } else {
-            ActivityCompat.requestPermissions(context as Activity, arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE),Constants.RC_WRITE_EXTERNAL_STORAGE)
+            ActivityCompat.requestPermissions(
+                context as Activity,
+                arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE),
+                Constants.RC_WRITE_EXTERNAL_STORAGE
+            )
         }
+
+        return null
     }
 }

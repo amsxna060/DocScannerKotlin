@@ -8,16 +8,16 @@ import android.graphics.BitmapFactory
 import android.media.AudioAttributes
 import android.media.SoundPool
 import android.net.Uri
-import android.os.Bundle
-import android.os.Environment
-import android.os.ParcelFileDescriptor
+import android.os.*
 import android.util.Log
+import android.util.Size
 import android.view.View
 import android.widget.ImageView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.camera.core.*
+import androidx.camera.core.impl.ImageCaptureConfig
 import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
@@ -39,11 +39,10 @@ class CameraActivity : AppCompatActivity() {
     lateinit var gallery: ImageView
     var currentBitmap: Bitmap? = null
 
-
     override fun onBackPressed() {
         if (currentImageNumberToHandle == -1) {
             //We have pressed back with only images captured and no editing so far
-            val builder: AlertDialog.Builder = AlertDialog.Builder(this, R.style.MyDialogTheme)
+            val builder: AlertDialog.Builder = AlertDialog.Builder(this, R.style.MyTheme)
             builder.setTitle("Want to leave?")
                 .setMessage("Are you sure you want to quit? Your all work will be lost")
                 .setNegativeButton("No", null)
@@ -219,11 +218,21 @@ class CameraActivity : AppCompatActivity() {
 
                     if (currentImageNumberToHandle == -1) {
                         current.setImageBitmap(currentBitmap)
+
+                        //small preview of the captured image
+                        snap_image.visibility = View.VISIBLE
+                        snap_image.setImageBitmap(currentBitmap)
+
+                        val handler: Handler = Handler()
+                        handler.postDelayed({
+                            snap_image.visibility = View.GONE
+                        },1000)
+                        //preview of image code ends animation needs to be applied
+
                         CreatingPdf.bitmapFileArray.add(tempFile)
-                        //                      CreatingPdf.bitmapArray.add(currentBitmap!!)
+                        photo_number.text = "${CreatingPdf.bitmapFileArray.size}"
                     } else {
                         CreatingPdf.bitmapFileArray[currentImageNumberToHandle] = tempFile
-//                        CreatingPdf.bitmapArray.set(currentImageNumberToHandle, currentBitmap!!)
                         val intent = Intent(this@CameraActivity, CropActivity::class.java)
                         intent.putExtra("modified", currentImageNumberToHandle)
                         startActivity(intent)
@@ -297,8 +306,9 @@ class CameraActivity : AppCompatActivity() {
                 it.setSurfaceProvider(viewFinder.createSurfaceProvider())
             }
 
-
-            imageCapture = ImageCapture.Builder().build()
+            imageCapture = ImageCapture.Builder()
+                .setTargetResolution(Size(400,400))
+                .build()
 
             val cameraSelector = CameraSelector.DEFAULT_BACK_CAMERA
 

@@ -22,4 +22,9 @@
         <item name="colorPrimary">@color/colorPrimary</item>
     </style>
 
+    <style name="MyTheme" parent="Theme.AppCompat.Light.Dialog.Alert">
+        <item name="colorPrimary">#000000</item>
+    </style>
+
+
 </resources>

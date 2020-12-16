@@ -9,6 +9,8 @@ import java.io.File
 
 class MakePDFAsyncTask(var context: Context, var fileArray: ArrayList<File>, var fileName: String) : AsyncTask<Void, Void, Void>() {
     lateinit var progressDialog: ProgressDialog
+    var file: File? = null
+
     override fun onPreExecute() {
         super.onPreExecute()
         progressDialog = ProgressDialog(context, R.style.MyDialogTheme)
@@ -22,7 +24,7 @@ class MakePDFAsyncTask(var context: Context, var fileArray: ArrayList<File>, var
             fileName = fileName.substring(0,fileName.length - 4)
 
         val pdfCreator: PdfCreator = PdfCreator(context, fileArray,fileName)
-        pdfCreator.createPDF()
+        file = pdfCreator.createPDF()
         return null
     }
 
@@ -30,8 +32,10 @@ class MakePDFAsyncTask(var context: Context, var fileArray: ArrayList<File>, var
         super.onPostExecute(result)
         progressDialog.dismiss()
         Toast.makeText(context, "File saved!",Toast.LENGTH_SHORT).show()
-        MainActivity.pdfListAdapter.notifyDataSetChanged()
-
+        if (file != null) {
+            MainActivity.appPDFArray.add(file!!)
+            MainActivity.pdfListAdapter.notifyDataSetChanged()
+        }
         CreatingPdf.bitmapArray.clear()
         CreatingPdf.bitmapFileArray.clear()
         val currentActivity = context as Activity

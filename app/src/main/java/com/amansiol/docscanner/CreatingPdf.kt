@@ -82,7 +82,7 @@ class CreatingPdf : AppCompatActivity() {
 
     fun savePdf(view: View) {
         var filename: String
-        val builder: AlertDialog.Builder = AlertDialog.Builder(this, R.style.MyDialogTheme)
+        val builder: AlertDialog.Builder = AlertDialog.Builder(this, R.style.MyTheme)
         val v: View = LayoutInflater.from(this).inflate(R.layout.save_pdf_alert_dialog,null, false)
         val editText: EditText = v.findViewById(R.id.entered_file_name_for_pdf)
         builder.setView(v)
