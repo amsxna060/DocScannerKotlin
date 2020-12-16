@@ -128,17 +128,20 @@ class MainActivity : AppCompatActivity() {
 //            Animatoo.animateZoom(this@MainActivity)
 //        })
 
-        searchbar.setOnQueryTextListener(object :
-            androidx.appcompat.widget.SearchView.OnQueryTextListener {
-            override fun onQueryTextChange(newText: String?): Boolean {
-                pdfListAdapter.filter.filter(newText)
-                return false
-            }
 
-            override fun onQueryTextSubmit(query: String?): Boolean {
-                return false
-            }
-        })
+
+//        searchbar.setOnQueryTextListener(object :
+//            androidx.appcompat.widget.SearchView.OnQueryTextListener {
+//            override fun onQueryTextChange(newText: String?): Boolean {
+//                pdfListAdapter.filter.filter(newText)
+//                return true;
+//            }
+//
+//            override fun onQueryTextSubmit(query: String?): Boolean {
+//                pdfListAdapter.filter.filter(query)
+//                return true;
+//            }
+//        })
 
         searchbar.setOnCloseListener(androidx.appcompat.widget.SearchView.OnCloseListener {
             val t = Toast.makeText(this@MainActivity, "close", Toast.LENGTH_SHORT)
