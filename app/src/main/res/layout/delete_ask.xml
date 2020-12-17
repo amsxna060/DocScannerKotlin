@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/asking_for_deletion"
+        android:layout_marginTop="10dp"
+        android:layout_marginStart="10dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Delete file??"
+        android:textSize="22sp"
+        android:textStyle="bold"/>
+
+    <TextView
+        android:id="@+id/confirming_for_deletion"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textStyle="normal"
+        android:textSize="16sp"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp"
+        android:text="Want to delete?? this file will be lost"
+        android:layout_below="@id/asking_for_deletion"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/confirming_for_deletion"
+        android:orientation="horizontal"
+        android:layout_marginTop="20dp">
+
+        <Button
+            android:id="@+id/dont_delete"
+            android:text="Cancel"
+            android:layout_margin="10dp"
+            android:layout_weight="50"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:background="@drawable/roundbtn"/>
+
+        <Button
+            android:id="@+id/sure_delete"
+            android:text="Delete"
+            android:layout_margin="10dp"
+            android:layout_weight="50"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/roundbtn"/>
+
+    </LinearLayout>
+
+</RelativeLayout>

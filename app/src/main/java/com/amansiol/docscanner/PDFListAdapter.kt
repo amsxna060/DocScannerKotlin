@@ -1,6 +1,8 @@
 package com.amansiol.docscanner
 
 import android.app.Activity
+import android.app.AlertDialog
+import android.app.Dialog
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
@@ -8,9 +10,7 @@ import android.net.Uri
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.TextView
-import android.widget.Toast
+import android.widget.*
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
@@ -27,17 +27,38 @@ class PDFListAdapter(var context: Context) : RecyclerView.Adapter<PDFListAdapter
 
     private fun sharePDF(file: File) {
         val sharingIntent = Intent(Intent.ACTION_SEND)
-        val pdfUri: Uri = FileProvider.getUriForFile(context, context.applicationContext.packageName + ".provider", file);
+        val pdfUri: Uri = FileProvider.getUriForFile(
+            context,
+            context.applicationContext.packageName + ".provider",
+            file
+        );
         sharingIntent.type = "application/pdf"
         sharingIntent.putExtra(Intent.EXTRA_STREAM, pdfUri)
         context.startActivity(Intent.createChooser(sharingIntent, "Share PDF using"))
     }
 
     private fun deleteFile(file: File) {
-        file.delete()
-        ViewAllPdf.pdfArray.remove(file)
-        ViewAllPdf.pdfListAdapter.notifyDataSetChanged()
-        Toast.makeText(context,"${file.name} deleted",Toast.LENGTH_SHORT).show()
+        val alertDialogBuilder: AlertDialog.Builder = AlertDialog.Builder(context)
+        val v = LayoutInflater.from(context).inflate(R.layout.delete_ask, null, false)
+        alertDialogBuilder.setView(v)
+
+        val deleteBtn: Button = v.findViewById(R.id.sure_delete)
+        val cancelBtn: Button = v.findViewById(R.id.dont_delete)
+
+        val dialog: AlertDialog = alertDialogBuilder.create()
+        dialog.show()
+
+        deleteBtn.setOnClickListener {
+            file.delete()
+            ViewAllPdf.pdfArray.remove(file)
+            ViewAllPdf.pdfListAdapter.notifyDataSetChanged()
+            Toast.makeText(context, "${file.name} deleted", Toast.LENGTH_SHORT).show()
+            dialog.dismiss()
+        }
+
+        cancelBtn.setOnClickListener {
+            dialog.dismiss()
+        }
     }
 
     override fun onBindViewHolder(holder: PDFListViewHolder, position: Int) {
@@ -57,11 +78,19 @@ class PDFListAdapter(var context: Context) : RecyclerView.Adapter<PDFListAdapter
         holder.deleteImageView.setOnClickListener(View.OnClickListener {
             fileToBeDeleted = file
             //Check whether we have the permission to delete the files on device by checking write external storage permission
-            if (ContextCompat.checkSelfPermission(context, android.Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
+            if (ContextCompat.checkSelfPermission(
+                    context,
+                    android.Manifest.permission.WRITE_EXTERNAL_STORAGE
+                ) == PackageManager.PERMISSION_GRANTED
+            ) {
                 deleteFile(file)
             } else {
                 //Ask for permission
-                ActivityCompat.requestPermissions(context as Activity, arrayOf(android.Manifest.permission.WRITE_EXTERNAL_STORAGE),Constants.RC_WRITE_EXTERNAL_STORAGE)
+                ActivityCompat.requestPermissions(
+                    context as Activity,
+                    arrayOf(android.Manifest.permission.WRITE_EXTERNAL_STORAGE),
+                    Constants.RC_WRITE_EXTERNAL_STORAGE
+                )
             }
         })
 
@@ -69,21 +98,57 @@ class PDFListAdapter(var context: Context) : RecyclerView.Adapter<PDFListAdapter
         holder.editImageView.setOnClickListener(View.OnClickListener {
             //to be implemented
             fileToBeDeleted = null
-            Toast.makeText(context,"Edit toast",Toast.LENGTH_SHORT).show()
+            val alertDialogBuilder: AlertDialog.Builder = AlertDialog.Builder(context)
+            val v = LayoutInflater.from(context).inflate(R.layout.rename, null, false)
+            alertDialogBuilder.setView(v)
+
+            val saveBtn: Button = v.findViewById(R.id.rename_my_file)
+            val cancelBtn: Button = v.findViewById(R.id.rename_canceling)
+            val editText: EditText = v.findViewById(R.id.rename_file_name_for_pdf)
+            val dialog: AlertDialog = alertDialogBuilder.create()
+            dialog.show()
+
+            saveBtn.setOnClickListener {
+                if (editText.text.toString().isEmpty()) {
+                    Toast.makeText(context, "Enter a name", Toast.LENGTH_SHORT).show()
+                } else {
+                    val newName: String = editText.text.toString()
+                    renameFile(newName, file)
+                    dialog.dismiss()
+                    notifyDataSetChanged()
+                }
+            }
+
+            cancelBtn.setOnClickListener {
+                dialog.dismiss()
+            }
         })
 
         //In general onClick listener on a listItem to show the PDF
         holder.itemView.setOnClickListener(View.OnClickListener {
-            val intent = Intent(context,PdfViewActivity::class.java)
+            val intent = Intent(context, PdfViewActivity::class.java)
             intent.putExtra(Constants.INTENT_POSITION_KEY_NAME, position)
-            intent.putExtra(Constants.IS_FROM_DEVICE,true)
+            intent.putExtra(Constants.IS_FROM_DEVICE, true)
             context.startActivity(intent)
             Animatoo.animateSplit(context)
         })
     }
 
+    private fun renameFile(newName: String, file: File) {
+        val directory: File = File(
+            file.parentFile.absolutePath
+        )
+        val from = File(directory, file.name)
+        val to = File(directory, newName.trim().toString() + ".pdf")
+        from.renameTo(to)
+    }
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PDFListViewHolder {
-        val view: View = LayoutInflater.from(context).inflate(R.layout.recent_pdf_row, parent,false)
+        val view: View = LayoutInflater.from(context).inflate(
+            R.layout.recent_pdf_row,
+            parent,
+            false
+        )
         return PDFListViewHolder(view)
     }
 

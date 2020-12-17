@@ -1,6 +1,7 @@
 package com.amansiol.docscanner
 
 import android.app.Activity
+import android.app.AlertDialog
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
@@ -96,10 +97,29 @@ class OurAppPDFListAdapter(var context: Context, var pdfArray: ArrayList<File>) 
     }
 
     private fun deleteFile(file: File) {
-        file.delete()
-        pdfArray.remove(file)
-        MainActivity.pdfListAdapter.notifyDataSetChanged()
-        Toast.makeText(context,"${file.name} deleted",Toast.LENGTH_SHORT).show()
+
+        val alertDialogBuilder: AlertDialog.Builder = AlertDialog.Builder(context)
+        val v = LayoutInflater.from(context).inflate(R.layout.delete_ask, null, false)
+        alertDialogBuilder.setView(v)
+
+        val deleteBtn: Button = v.findViewById(R.id.sure_delete)
+        val cancelBtn: Button = v.findViewById(R.id.dont_delete)
+
+        val dialog: AlertDialog = alertDialogBuilder.create()
+        dialog.show()
+
+        deleteBtn.setOnClickListener {
+            file.delete()
+            pdfArray.remove(file)
+            MainActivity.pdfListAdapter.notifyDataSetChanged()
+            Toast.makeText(context,"${file.name} deleted",Toast.LENGTH_SHORT).show()
+            dialog.dismiss()
+        }
+
+        cancelBtn.setOnClickListener {
+            dialog.dismiss()
+        }
+
     }
 
     class OurPDFViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {

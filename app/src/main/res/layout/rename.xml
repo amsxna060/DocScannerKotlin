@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/rename_file_as"
+        android:textStyle="bold"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="18sp"
+        android:paddingTop="8dp"
+        android:paddingStart="8dp"
+        android:paddingEnd="8dp"
+        android:text="Rename PDF as"/>
+
+    <EditText
+        android:layout_below="@id/rename_file_as"
+        android:inputType="textPersonName"
+        android:padding="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="12dp"
+        android:id="@+id/rename_file_name_for_pdf"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/save_file_backgorund"
+        android:hint="File name here"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="10dp"
+        android:layout_below="@id/rename_file_name_for_pdf">
+
+        <Button
+            android:id="@+id/rename_canceling"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:text="Cancel"
+            android:layout_weight="50"
+            android:background="@drawable/roundbtn"/>
+        <Button
+            android:id="@+id/rename_my_file"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="Save"
+            android:layout_margin="8dp"
+            android:layout_weight="50"
+            android:layout_below="@id/entered_file_name_for_pdf"
+            android:background="@drawable/roundbtn"/>
+    </LinearLayout>
+
+</RelativeLayout>
