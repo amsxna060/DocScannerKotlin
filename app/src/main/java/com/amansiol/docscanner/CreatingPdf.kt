@@ -9,6 +9,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
+import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
 import androidx.camera.core.Preview
@@ -82,24 +83,31 @@ class CreatingPdf : AppCompatActivity() {
 
     fun savePdf(view: View) {
         var filename: String
-        val builder: AlertDialog.Builder = AlertDialog.Builder(this, R.style.MyTheme)
+        val builder: AlertDialog.Builder = AlertDialog.Builder(this)
         val v: View = LayoutInflater.from(this).inflate(R.layout.save_pdf_alert_dialog,null, false)
         val editText: EditText = v.findViewById(R.id.entered_file_name_for_pdf)
+
         builder.setView(v)
-            .setPositiveButton("Save") { _, _ ->
-                if (editText.text.isEmpty()) {
-                    Toast.makeText(this@CreatingPdf, "Please enter a name",Toast.LENGTH_SHORT).show()
-                } else {
-                    filename = editText.text.toString()
 
-                    val task: MakePDFAsyncTask = MakePDFAsyncTask(this, bitmapFileArray,filename)
-                    task.execute()
-
-                }
-            }
-            .setNegativeButton("Cancel", null)
+        val saveBtn = v.findViewById<Button>(R.id.save_my_file)
+        val Cancel = v.findViewById<Button>(R.id.save_canceling)
 
         val alertDialog: AlertDialog = builder.create()
+
+        saveBtn.setOnClickListener {
+            if (editText.text.isEmpty()) {
+                Toast.makeText(this@CreatingPdf, "Please enter a name",Toast.LENGTH_SHORT).show()
+            } else {
+                filename = editText.text.toString()
+                val task: MakePDFAsyncTask = MakePDFAsyncTask(this, bitmapFileArray,filename)
+                task.execute()
+            }
+        }
+
+        Cancel.setOnClickListener {
+            //nothing
+            alertDialog.dismiss()
+        }
         alertDialog.show()
     }
 

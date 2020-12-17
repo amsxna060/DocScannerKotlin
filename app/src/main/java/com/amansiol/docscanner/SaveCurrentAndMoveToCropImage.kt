@@ -22,6 +22,7 @@ class SaveCurrentAndMoveToCropImage(var context: Context) : AsyncTask<Void,Void,
         } catch (e: IOException) {
             e.printStackTrace()
         }
+
         return null
     }
 

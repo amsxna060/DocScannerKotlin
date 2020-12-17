@@ -74,6 +74,8 @@ class MainActivity : AppCompatActivity() {
         progressBsr = findViewById(R.id.our_app_pdf_load_progressbar)
         progressBsr.visibility = View.VISIBLE
 
+        appPDFArray.clear()
+
         val task: LoadPDFs = LoadPDFs(
             this,
             progressBsr,

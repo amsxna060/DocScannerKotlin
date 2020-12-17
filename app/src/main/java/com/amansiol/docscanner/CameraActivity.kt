@@ -5,18 +5,19 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
-import android.graphics.Matrix
 import android.media.AudioAttributes
 import android.media.SoundPool
 import android.net.Uri
 import android.os.*
+import android.text.Layout
 import android.util.Log
 import android.util.Size
+import android.view.LayoutInflater
 import android.view.View
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
+import android.widget.Button
 import android.widget.ImageView
-import android.widget.LinearLayout
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
@@ -47,18 +48,25 @@ class CameraActivity : AppCompatActivity() {
         if (currentImageNumberToHandle == -1) {
             //We have pressed back with only images captured and no editing so far
             val builder: AlertDialog.Builder = AlertDialog.Builder(this, R.style.MyTheme)
-            builder.setTitle("Want to leave?")
-                .setMessage("Are you sure you want to quit? Your all work will be lost")
-                .setNegativeButton("No", null)
-                .setPositiveButton("Yes") { _, _ ->
-                    finish()
-                    CreatingPdf.bitmapFileArray.clear()
-                    CreatingPdf.bitmapArray.clear()
-                }
+            val v: View = LayoutInflater.from(this).inflate(R.layout.leave_all_dialog, null, false)
+            builder.setView(v)
+
+            val leaveButton: Button = v.findViewById(R.id.sure_leave)
+            val noBtn: Button = v.findViewById(R.id.stay)
 
             val alertDialog: AlertDialog = builder.create()
 
             alertDialog.show()
+
+            leaveButton.setOnClickListener {
+                finish()
+                CreatingPdf.bitmapFileArray.clear()
+                CreatingPdf.bitmapArray.clear()
+            }
+
+            noBtn.setOnClickListener {
+                alertDialog.dismiss()
+            }
 
         } else {
             val intent = Intent(this@CameraActivity, CropActivity::class.java)
@@ -163,7 +171,6 @@ class CameraActivity : AppCompatActivity() {
             capture.setOnClickListener {
                 soundPool!!.play(sound1, 1f, 1f, 0, 0, 1f)
                 takePhoto()
-
             }
 
             done_capturing.setOnClickListener{
@@ -218,31 +225,22 @@ class CameraActivity : AppCompatActivity() {
 
                 override fun onImageSaved(outputFileResults: ImageCapture.OutputFileResults) {
                     //val uri: Uri = FileProvider.getUriForFile(this@CameraActivity,applicationContext.packageName + ".provider",tempFile)
+                    currentBitmap = decodeSampledBitmapFromFile(tempFile, 170, 170)
 
-                    currentBitmap = decodeSampledBitmapFromFile(tempFile,100,200)
-                    currentBitmap = rotateBitmap(currentBitmap!!, 90F)!!
-
-
-
-//                    val anim_view: Animation = AnimationUtils.loadAnimation(applicationContext, R.anim.animate_slide_down_enter)
                     val hide: Animation = AnimationUtils.loadAnimation(applicationContext, R.anim.animate_slide_down_exit)
-
 
                     if (currentImageNumberToHandle == -1) {
                         current.setImageBitmap(currentBitmap)
 
                         //small preview of the captured image
-//                        snap_image.visibility = View.VISIBLE
-//                        snap_image.startAnimation(anim_view)
+                        snap_image.visibility = View.VISIBLE
                         snap_image.setImageBitmap(currentBitmap)
 
-//                        val handler: Handler = Handler()
-//                        handler.postDelayed({
-//                            //animation lagani hai yaha
-//                            snap_image.startAnimation(hide)
-//                            snap_image.visibility = View.GONE
-//
-//                        },200)
+                        val handler: Handler = Handler()
+                        handler.postDelayed({
+                            snap_image.startAnimation(hide)
+                            snap_image.visibility = View.GONE
+                        },1000)
                         //preview of image code ends animation needs to be applied
 
                         CreatingPdf.bitmapFileArray.add(tempFile)
@@ -347,11 +345,6 @@ class CameraActivity : AppCompatActivity() {
     fun toggleFlash(view: View) {
         cameraControl.enableTorch(!isFlashOn)
         isFlashOn = !isFlashOn
-    }
-    private fun rotateBitmap(source: Bitmap, angle: Float): Bitmap? {
-        val matrix = Matrix()
-        matrix.postRotate(angle)
-        return Bitmap.createBitmap(source, 0, 0, source.width, source.height, matrix, true)
     }
 
     override fun onDestroy() {

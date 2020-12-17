@@ -5,7 +5,9 @@ import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.View
+import android.widget.Button
 import android.widget.ImageView
 import android.widget.ProgressBar
 import android.widget.TextView
@@ -81,17 +83,24 @@ class FilterActivity : AppCompatActivity() {
     }
 
     fun goToCreatingPdf(view: View) {
-        val builder: AlertDialog.Builder = AlertDialog.Builder(this, R.style.MyDialogTheme)
-        builder.setTitle("Save all work?")
-            .setMessage("Are you sure you want to proceed?")
-            .setPositiveButton("Yes"){_, _ ->
-                val task: SaveAllFileTask = SaveAllFileTask(this, filterArrayList)
-                task.execute()
-            }
-            .setNegativeButton("No", null)
+        val builder: AlertDialog.Builder = AlertDialog.Builder(this)
+        val v = LayoutInflater.from(this).inflate(R.layout.save_all_dialog,null,false)
+        val saveBtn: Button = v.findViewById(R.id.sure_save)
+        val dontSave: Button = v.findViewById(R.id.dont_save)
 
+        builder.setView(v)
         val dialog = builder.create()
         dialog.show()
+
+        saveBtn.setOnClickListener {
+            val task: SaveAllFileTask = SaveAllFileTask(this, filterArrayList)
+            task.execute()
+        }
+
+        dontSave.setOnClickListener {
+            //nothing
+            dialog.dismiss()
+        }
     }
 
     fun goToPrevFile(view: View) {
