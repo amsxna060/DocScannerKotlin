@@ -162,6 +162,8 @@ class CameraActivity : AppCompatActivity() {
             gallery.visibility = View.GONE
             done_capturing.visibility = View.GONE
 //            prev_image.visibility = View.GONE
+            current.visibility = View.GONE
+            photo_number.visibility = View.GONE
         }
 
         if(ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED) {
