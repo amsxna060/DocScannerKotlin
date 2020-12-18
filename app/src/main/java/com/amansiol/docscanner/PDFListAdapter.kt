@@ -124,25 +124,6 @@ class PDFListAdapter(var context: Context) : RecyclerView.Adapter<PDFListAdapter
                 dialog.dismiss()
             }
         })
-        holder.popup_menu.setOnClickListener(View.OnClickListener {
-
-            val popupMenu: PopupMenu = PopupMenu(context,holder.popup_menu,Gravity.BOTTOM)
-            popupMenu.menuInflater.inflate(R.menu.popup_menu,popupMenu.menu)
-            popupMenu.setOnMenuItemClickListener(PopupMenu.OnMenuItemClickListener { item ->
-                when(item.itemId) {
-                    R.id.extract_text->
-                        Toast.makeText(context, "You Clicked : " + item.title, Toast.LENGTH_SHORT).show()
-
-                    R.id.editpdftext->
-                        Toast.makeText(context, "You Clicked : " + item.title, Toast.LENGTH_SHORT).show()
-                    R.id.converttodoc->
-                        Toast.makeText(context, "You Clicked : " + item.title, Toast.LENGTH_SHORT).show()
-                }
-                true
-            })
-            popupMenu.show()
-        })
-
 
         //In general onClick listener on a listItem to show the PDF
         holder.itemView.setOnClickListener(View.OnClickListener {
@@ -183,6 +164,5 @@ class PDFListAdapter(var context: Context) : RecyclerView.Adapter<PDFListAdapter
         val deleteImageView: ImageView = itemView.findViewById(R.id.file_del)
         val shareImageView: ImageView = itemView.findViewById(R.id.file_share)
         val editImageView: ImageView = itemView.findViewById(R.id.file_edit_name)
-        val popup_menu: ImageView = itemView.findViewById(R.id.popup_menu)
     }
 }
