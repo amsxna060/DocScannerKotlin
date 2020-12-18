@@ -24,7 +24,7 @@ class PdfCreator(var context: Context, var bitmapFileArray: ArrayList<File>, var
         val document: PdfDocument = PdfDocument()
         for (i in 0 until bitmapFileArray.size) {
             val pageInfo: PdfDocument.PageInfo =
-                PdfDocument.PageInfo.Builder(592, 842, i + 1).create()
+                PdfDocument.PageInfo.Builder(400, 400, i + 1).create()
             val page: PdfDocument.Page = document.startPage(pageInfo)
 
             var currentBitmap = BitmapFactory.decodeFile(bitmapFileArray[i].absolutePath)
@@ -32,8 +32,8 @@ class PdfCreator(var context: Context, var bitmapFileArray: ArrayList<File>, var
             currentBitmap = getResizedBitmap(currentBitmap)
 
             //taking margins from left and right according to bitmap's height and width for adjusting the bitmap to the centre of the page irrespective of its size
-            val left: Float = (592 - currentBitmap.width.toFloat()) / 2
-            val top: Float = (842 - currentBitmap.height.toFloat()) / 2
+            val left: Float = (400 - currentBitmap.width.toFloat()) / 2
+            val top: Float = (400 - currentBitmap.height.toFloat()) / 2
 
             page.canvas.drawBitmap(currentBitmap, left, top, null)
             document.finishPage(page)
@@ -47,22 +47,22 @@ class PdfCreator(var context: Context, var bitmapFileArray: ArrayList<File>, var
         val height = bitmap.height
 
         val resizedBitmap: Bitmap
-        if (width < 592 && height < 842) {
+        if (width < 400 && height < 400) {
             resizedBitmap = bitmap
-        } else if (width > 592 && height > 842) {
-            val scaleWidth = 592 / width.toFloat()
-            val scaleHeight = 842 / height.toFloat()
+        } else if (width > 400 && height > 400) {
+            val scaleWidth = 400 / width.toFloat()
+            val scaleHeight = 400 / height.toFloat()
             val matrix = Matrix()
             matrix.postScale(scaleWidth, scaleHeight)
             resizedBitmap = Bitmap.createBitmap(bitmap, 0, 0, width, height, matrix, false)
-        } else if (width > 592) {
-            val scaleWidth = 592 / width.toFloat()
+        } else if (width > 400) {
+            val scaleWidth = 400 / width.toFloat()
             val matrix = Matrix()
             matrix.postScale(scaleWidth, scaleWidth)
             resizedBitmap = Bitmap.createBitmap(bitmap, 0, 0, width, height, matrix, false)
-        } else if (height > 842) {
+        } else if (height > 400) {
             //scale height
-            val scaleHeight = 842 / height.toFloat()
+            val scaleHeight = 400 / height.toFloat()
             val matrix = Matrix()
             matrix.postScale(scaleHeight, scaleHeight)
             resizedBitmap = Bitmap.createBitmap(bitmap, 0, 0, width, height, matrix, false)

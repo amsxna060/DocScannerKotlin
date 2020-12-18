@@ -114,9 +114,9 @@ class PDFListAdapter(var context: Context) : RecyclerView.Adapter<PDFListAdapter
                     Toast.makeText(context, "Enter a name", Toast.LENGTH_SHORT).show()
                 } else {
                     val newName: String = editText.text.toString()
-                    renameFile(newName, file)
+                    renameFile(newName, file, position)
                     dialog.dismiss()
-                    notifyDataSetChanged()
+                    //notifyDataSetChanged()
                 }
             }
 
@@ -135,13 +135,15 @@ class PDFListAdapter(var context: Context) : RecyclerView.Adapter<PDFListAdapter
         })
     }
 
-    private fun renameFile(newName: String, file: File) {
+    private fun renameFile(newName: String, file: File, position: Int) {
         val directory: File = File(
             file.parentFile.absolutePath
         )
         val from = File(directory, file.name)
         val to = File(directory, newName.trim().toString() + ".pdf")
         from.renameTo(to)
+        ViewAllPdf.pdfArray[position] = to
+        notifyDataSetChanged()
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PDFListViewHolder {

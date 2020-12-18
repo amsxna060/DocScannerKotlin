@@ -89,8 +89,8 @@ class OurAppPDFListAdapter(var context: Context, var pdfArray: ArrayList<File>) 
                         Toast.makeText(context, "Enter a name", Toast.LENGTH_SHORT).show()
                     } else {
                         val newName: String = editText.text.toString()
-                        renameFile(newName, file)
-                        notifyDataSetChanged()
+                        renameFile(newName, file,position)
+                        //notifyDataSetChanged()
                         d.dismiss()
                     }
                 }
@@ -134,12 +134,14 @@ class OurAppPDFListAdapter(var context: Context, var pdfArray: ArrayList<File>) 
         return pdfArray.size
     }
 
-    private fun renameFile(newName: String, file: File) {
+    private fun renameFile(newName: String, file: File, position: Int) {
         val directory: File = File(
             file.parentFile.absolutePath
         )
         val from = File(directory, file.name)
         val to = File(directory, newName.trim().toString() + ".pdf")
+        pdfArray[position] = to
+        notifyDataSetChanged()
         from.renameTo(to)
     }
 
