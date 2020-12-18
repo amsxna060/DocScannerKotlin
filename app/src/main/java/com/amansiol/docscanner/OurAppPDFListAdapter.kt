@@ -61,17 +61,63 @@ class OurAppPDFListAdapter(var context: Context, var pdfArray: ArrayList<File>) 
         holder.editImageView.setOnClickListener(View.OnClickListener {
 
             PDFListAdapter.fileToBeDeleted = null
-            val listOfPages: ArrayList<Int> = ArrayList()
-            val renderer = PdfRenderer(ParcelFileDescriptor.open(file, ParcelFileDescriptor.MODE_READ_ONLY))
-            val noOfPages = renderer.pageCount
 
-            for (i in 0 until noOfPages) {
-                listOfPages.add(i)
+            val builder: AlertDialog.Builder = AlertDialog.Builder(context)
+            val v = LayoutInflater.from(context).inflate(R.layout.choose_action, null, false)
+
+            val renameTextView: TextView = v.findViewById(R.id.rename_action)
+            val editTextView: TextView = v.findViewById(R.id.edit_action)
+
+            builder.setView(v)
+
+            val dialog: AlertDialog = builder.create()
+            dialog.show()
+
+            renameTextView.setOnClickListener {
+                val alertDialogBuilder: AlertDialog.Builder = AlertDialog.Builder(context)
+                val view = LayoutInflater.from(context).inflate(R.layout.rename, null, false)
+                alertDialogBuilder.setView(view)
+
+                val saveBtn: Button = view.findViewById(R.id.rename_my_file)
+                val cancelBtn: Button = view.findViewById(R.id.rename_canceling)
+                val editText: EditText = view.findViewById(R.id.rename_file_name_for_pdf)
+                val d: AlertDialog = alertDialogBuilder.create()
+                d.show()
+
+                saveBtn.setOnClickListener {
+                    if (editText.text.toString().isEmpty()) {
+                        Toast.makeText(context, "Enter a name", Toast.LENGTH_SHORT).show()
+                    } else {
+                        val newName: String = editText.text.toString()
+                        renameFile(newName, file)
+                        notifyDataSetChanged()
+                        d.dismiss()
+                    }
+                }
+
+                cancelBtn.setOnClickListener {
+                    d.dismiss()
+                }
+
+                dialog.dismiss()
             }
-            val converter: PdfToImageConverter = PdfToImageConverter(context, file, listOfPages)
-            CreatingPdf.bitmapFileArray = converter.convertSelectedPagesToImages()
-            val intent: Intent = Intent(context, CropActivity::class.java)
-            context.startActivity(intent)
+
+            editTextView.setOnClickListener {
+                val listOfPages: ArrayList<Int> = ArrayList()
+                val renderer = PdfRenderer(ParcelFileDescriptor.open(file, ParcelFileDescriptor.MODE_READ_ONLY))
+                val noOfPages = renderer.pageCount
+
+                for (i in 0 until noOfPages) {
+                    listOfPages.add(i)
+                }
+
+                val converter: PdfToImageConverter = PdfToImageConverter(context, file, listOfPages)
+                CreatingPdf.bitmapFileArray = converter.convertSelectedPagesToImages()
+                val intent: Intent = Intent(context, CropActivity::class.java)
+                context.startActivity(intent)
+
+                dialog.dismiss()
+            }
         })
 
         //In general onClick listener on a listItem to show the PDF
@@ -86,6 +132,15 @@ class OurAppPDFListAdapter(var context: Context, var pdfArray: ArrayList<File>) 
 
     override fun getItemCount(): Int {
         return pdfArray.size
+    }
+
+    private fun renameFile(newName: String, file: File) {
+        val directory: File = File(
+            file.parentFile.absolutePath
+        )
+        val from = File(directory, file.name)
+        val to = File(directory, newName.trim().toString() + ".pdf")
+        from.renameTo(to)
     }
 
     private fun sharePDF(file: File) {
@@ -119,7 +174,6 @@ class OurAppPDFListAdapter(var context: Context, var pdfArray: ArrayList<File>) 
         cancelBtn.setOnClickListener {
             dialog.dismiss()
         }
-
     }
 
     class OurPDFViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
