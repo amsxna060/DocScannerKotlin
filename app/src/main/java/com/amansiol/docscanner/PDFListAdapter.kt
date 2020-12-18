@@ -7,6 +7,7 @@ import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
+import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -125,11 +126,16 @@ class PDFListAdapter(var context: Context) : RecyclerView.Adapter<PDFListAdapter
         })
         holder.popup_menu.setOnClickListener(View.OnClickListener {
 
-            val popupMenu: PopupMenu = PopupMenu(context,holder.popup_menu)
+            val popupMenu: PopupMenu = PopupMenu(context,holder.popup_menu,Gravity.BOTTOM)
             popupMenu.menuInflater.inflate(R.menu.popup_menu,popupMenu.menu)
             popupMenu.setOnMenuItemClickListener(PopupMenu.OnMenuItemClickListener { item ->
                 when(item.itemId) {
                     R.id.extract_text->
+                        Toast.makeText(context, "You Clicked : " + item.title, Toast.LENGTH_SHORT).show()
+
+                    R.id.editpdftext->
+                        Toast.makeText(context, "You Clicked : " + item.title, Toast.LENGTH_SHORT).show()
+                    R.id.converttodoc->
                         Toast.makeText(context, "You Clicked : " + item.title, Toast.LENGTH_SHORT).show()
                 }
                 true
